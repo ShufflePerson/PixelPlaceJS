@@ -1,0 +1,22 @@
+{
+  "name": "onehook",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "compile": "tsc",
+    "dev": "nodemon src/index.ts"
+  },
+  "dependencies": {
+    "@types/random-useragent": "^0.3.1",
+    "@types/winston": "^2.4.4",
+    "@types/ws": "^8.5.5",
+    "axios": "^1.4.0",
+    "random-useragent": "^0.5.0",
+    "winston": "^3.10.0",
+    "ws": "^8.13.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
