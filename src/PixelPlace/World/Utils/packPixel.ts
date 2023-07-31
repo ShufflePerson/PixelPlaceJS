@@ -1,5 +1,5 @@
-
-
-function packPixel(x: number, y: number, color: number): number {
-    return (x << 20) | (y << 8) | color;
+function packPixel(buffer: Buffer, offset: number, x: number, y: number, color: number) {
+    buffer.writeInt32BE((x << 20) | (y << 8) | color, offset);
 }
+
+export default packPixel;

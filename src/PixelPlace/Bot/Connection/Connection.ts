@@ -6,6 +6,7 @@ import EPackets from "./Enums/EPackets";
 import sleep from "../../../Utils/sleep";
 import getEmitMessage from "./Utils/getEmitMessage";
 import parseIncomingMessage from "./Utils/parseIncomingMessage";
+import World from "../../World/World";
 
 class Connection {
     
@@ -40,8 +41,10 @@ class Connection {
         }))
     }
 
-    public registerOnMessage(func: any) {
-        this.ws?.on("message", func);
+    public registerOnMessage(func: any, that: World) {
+        this.ws?.on("message", ((message: string) => {
+            func(that, message)
+        }));
     }
     
     private emit(identifier: EPackets, data: any) {
