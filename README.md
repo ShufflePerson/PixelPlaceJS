@@ -1,4 +1,4 @@
-# Onehook
+# PixelPlaceJS
 Fully documented and strongly typed nodejs libary for PixelPlace.io
 
 
@@ -9,9 +9,9 @@ Fully documented and strongly typed nodejs libary for PixelPlace.io
 
 This is only required for developers
 
-1. Clone the repo `git clone https://github.com/DarknessTomDev/Onehook`
+1. Clone the repo `git clone https://github.com/DarknessTomDev/PixelPlaceJS`
 2. Install packages by running `npm install`
-3. Run `npm run run-dev` to start onehook.
+3. Run `npm run run-dev` to start PixelPlaceJS.
 
 ## Usage
 
@@ -19,7 +19,7 @@ This is only required for developers
 
 ```ts
 
-import { World, EPackets, Types } from 'Onehook'
+import { World, EPackets, Types } from 'PixelPlaceJS'
 
 (async () => {
 
@@ -41,7 +41,7 @@ import { World, EPackets, Types } from 'Onehook'
 
 ```ts
 
-import { World, PixelPlace } from 'Onehook'
+import { World, PixelPlace } from 'PixelPlaceJS'
 
 (async () => {
 
