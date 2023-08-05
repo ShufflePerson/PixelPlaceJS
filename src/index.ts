@@ -1,17 +1,33 @@
 import initLogger from "./Logging/initLogger";
-import PixelPlace from "./PixelPlace/PixelPlace"
+import EPackets from "./PixelPlace/Enums/EPackets";
+import PixelPlace from "./PixelPlace/PixelPlace";
+import IChatMessage from "./PixelPlace/Types/Chat/IChatMessage";
 import World from "./PixelPlace/World/World";
+import fs from 'fs';
+import { resolve } from 'path'
+import { fileURLToPath } from 'url'
+import IFight from "./PixelPlace/Types/Misc/Fight/IFight";
+import Bot from "./PixelPlace/Bot/Bot";
+import Auth from "./PixelPlace/Bot/Auth/Auth";
+
+export { World };
+export { PixelPlace };
+export { EPackets }
+export { IChatMessage }
 
 
-(async () => {
+if (require.main === module) {
+    (async () => {
+        if(!fs.existsSync("./temp")) fs.mkdirSync("./temp");
+        if(!fs.existsSync("./data")) fs.mkdirSync("./data");
 
-    initLogger();
+        initLogger();
+    
+        let world = new World(7);
+        let pp = new PixelPlace(fs.readFileSync("./accounts.txt", "utf-8").split("\n"), world, 7);
 
-    let world = new World(11);
-    await world.Init();
-  
-    let pp = new PixelPlace(["eurachhomd.wao.c.2.0.44@gmail.com"], 11);
-    await pp.Init();
+        await world.Init();
 
-    console.log("PP is running")
-})()
+        console.log("PP is running")
+    })()
+}

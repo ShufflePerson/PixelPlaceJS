@@ -85,21 +85,19 @@ function findClosestHex(r: number, g: number, b: number, colorList: { [hex: stri
     return closestHex;
 }
 
-function componentToHex(c: number) {
-    var hex = c.toString(16);
-    return hex.length == 1 ? "0" + hex : hex;
+function rgbToHex(r: number, g: number, b: number) {
+    return ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
 }
 
-
 function getPxPColor(r: number, g: number, b: number): number {
-    let hex = `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b)}`.toUpperCase();
+    let hex = `#${rgbToHex(r, g, b)}`.toUpperCase();
     if (colors[hex] != undefined) {
         return colors[hex];
     }
     let color = colors[findClosestHex(r, g, b, colors) || ""];
     
     colors[hex] = color;
-
+    
     return color;
 }
 

@@ -1,4 +1,4 @@
-import { customRandomString } from "./customRandomString";
+import { customRandomString } from "./Random/customRandomString";
 
 export function getCacheLocalAuth() {
     let cipher: any = {};

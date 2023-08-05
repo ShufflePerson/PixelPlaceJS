@@ -1,19 +1,23 @@
-import Axios, { AxiosInstance, AxiosError } from "axios";
+import Axios, { AxiosInstance, AxiosError, AxiosRequestConfig } from "axios";
 import IError from "../../Types/Auth/IError";
-import IPPHeaders from "../../Types/PixelPlace/IPPHeaders";
 import ISessionData from "../../Types/PixelPlace/ISessionData";
 import getUA from "./Utils/getUA";
 import Config from "./Config";
 import { getCacheLocalAuth } from "../../Helpers/getAuthSecret";
 import parseSessionData from "./Utils/parseSessionData";
 import EError from "../../Types/Auth/EError";
+import fs from 'fs'
+import { customRandomString } from "../../Helpers/getPAlive";
+import winston from "winston";
 
 
 class Auth {
 
     private sessionData: ISessionData | null = null;
 
-    constructor(private email: string, private password: string, private userAgent: string = getUA(), private axios: AxiosInstance = Axios.create({})) {}
+    constructor(private email: string, private password: string, private userAgent: string = getUA(), private axios: AxiosInstance = Axios.create({})) {
+        this.axios.defaults.headers = this.getHeaders() as any;
+    }
 
     public getHeaders(): any {
         let cookie: string = "";
@@ -28,6 +32,12 @@ class Auth {
             "User-Agent": this.userAgent
         }
     }
+
+    private getAxiosConfig(): AxiosRequestConfig {
+        return {
+            headers: this.getHeaders()
+        }
+    }
     
     public getSessionData(): ISessionData | null {
         return this.sessionData;
@@ -37,19 +47,42 @@ class Auth {
         return this.email;
     }
 
-    public setProxy(proxy: string) {
-        console.warn(`setProxy function is not yet finished.`)
+   // public setProxy(proxy: string) {
+    //    console.warn(`setProxy function is not yet finished.`)
+   // }
+
+    private saveCache() {
+        let currentCache = JSON.parse(fs.readFileSync("./data/cache.json", "utf-8"));
+        currentCache[this.getEmail()] = this.sessionData;
+        fs.writeFileSync("./data/cache.json", JSON.stringify(currentCache))
+    }
+
+    private attemptLoadCache(): boolean {
+        let currentCache = JSON.parse(fs.readFileSync("./data/cache.json", "utf-8"));
+        if(currentCache[this.getEmail()]) {
+            this.sessionData = currentCache[this.getEmail()]
+            return true;
+        }
+        return false;
+    }
+    
+    public async setUsername(username: string = customRandomString(7)): Promise<void> {
+        await this.axios.post("https://pixelplace.io/api/account-username.php", `username=${username}`, this.getAxiosConfig());
+        winston.log("info", "Set username", "Auth", username);
     }
 
     public async Login(): Promise<ISessionData | IError> {
         try {
-            let res = await this.axios.post(Config.LOGIN_URL, `email=${this.email}&password=${this.password}`, {headers: this.getHeaders()})
+            if(this.attemptLoadCache() && this.sessionData) return this.sessionData;
+            let res = await this.axios.post(Config.LOGIN_URL, `email=${this.email}&password=${this.password}`, this.getAxiosConfig())
             
             if (JSON.stringify(res.data) == "[]") {
                 let sesData = parseSessionData(res);
                 this.sessionData = sesData;
+                this.saveCache();
                 return sesData;
             }
+
 
             return {
                 id: EError.UNEXPECTED,

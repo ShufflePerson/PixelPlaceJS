@@ -1,5 +1,4 @@
-import EPackets from "../Enums/EPackets";
-import WebSocket from 'ws'
+import EPackets from "../../../Enums/EPackets";
 
 function getEmitMessage(identifier: EPackets, data: any) {
     let message = `42["${identifier}",${JSON.stringify(data)}]`
