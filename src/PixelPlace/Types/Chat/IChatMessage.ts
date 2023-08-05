@@ -6,7 +6,7 @@ interface IChatMessage extends IUser {
   mention: string;
   target: string;
   type: "chat";
-  message: "string";
+  message: string;
 }
 
 export default IChatMessage;
