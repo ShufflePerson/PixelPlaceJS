@@ -16,33 +16,33 @@ enum EPackets {
     ERROR = "throw.error",
     ITEM_USED = "item.notification.use",
     PREMIUM_MOD = "premium.mod",
-    SAVE_TRACKING_CACHE = "save.tracking.cache", //Number
-    SAVE_TRACKING_PENDING = "save.tracking.pending", //String ("error") || {pixels: ..., names: ...}
-    QUEUE = "queue", //{time: seconds, position: int}
-    SPECIAL_ERROR = "throw.error.special", // {id: number, message: string} 43 = logout, 42 = loadUserItems
+    SAVE_TRACKING_CACHE = "save.tracking.cache",
+    SAVE_TRACKING_PENDING = "save.tracking.pending",
+    QUEUE = "queue",
+    SPECIAL_ERROR = "throw.error.special",
     PROTECTION = "protection",
-    COOLDOWN = "cooldown", //Number
-    COOLDOWN_DOT = "cooldown_dot", //Number
+    COOLDOWN = "cooldown",
+    COOLDOWN_DOT = "cooldown_dot",
     RELOAD = "reload",
-    CANVAS_ACCESS_REQUESTED = "canvas.access.requested", //Number,
-    USER_PROFILE = "user.profile", //{x, y, ...user}
-    PAINTING_PLAYERS = "painting.players", // [{username, color}]
-    HOT_PAINTINGS = "hot.paintings", // [{defaultColor, xMax, access, id}]
-    COINS_GIFT_NOTIFICATION = "coins.notification.gift", //{from, to, amount}
-    GOLDEN_NOTIFICATION = "golden.notification", //{way: number, username}
-    ITEM_NOTIFICATION_SNOWBALL = "item.notification.snowball", //{from, to, snowballed: int}
-    ITEM_NOTIFICATION_GIFT = "item.notification.gift", //{from, to, item: string}
-    CHAT_SYSTEM_MESSAGE = "chat.system.message", // Number (EWSError)
-    CANVAS_SUCCESS = "canvas.success", //String
-    CANVAS_ALERT = "canvas.alert", //String
-    CHAT_CUSTOM_MESSAGE = "chat.custom.message", //String
-    CHAT_CUSTOM_ANNOUNCE = "chat.custom.announce", //String
-    CHAT_PAINTING_DELETE = "chat.painting.delete", //String (username)
-    CHAT_SYSTEM_DELETE = "chat.system.delete", //String (username)
+    CANVAS_ACCESS_REQUESTED = "canvas.access.requested",
+    USER_PROFILE = "user.profile",
+    PAINTING_PLAYERS = "painting.players", 
+    HOT_PAINTINGS = "hot.paintings",
+    COINS_GIFT_NOTIFICATION = "coins.notification.gift",
+    GOLDEN_NOTIFICATION = "golden.notification",
+    ITEM_NOTIFICATION_SNOWBALL = "item.notification.snowball",
+    ITEM_NOTIFICATION_GIFT = "item.notification.gift",
+    CHAT_SYSTEM_MESSAGE = "chat.system.message",
+    CANVAS_SUCCESS = "canvas.success",
+    CANVAS_ALERT = "canvas.alert",
+    CHAT_CUSTOM_MESSAGE = "chat.custom.message",
+    CHAT_CUSTOM_ANNOUNCE = "chat.custom.announce", 
+    CHAT_PAINTING_DELETE = "chat.painting.delete",
+    CHAT_SYSTEM_DELETE = "chat.system.delete", 
     CHAT_MESSAGES_LOADED = "chat.messages.loaded", 
-    CHAT_COMMAND = "chat.command", // {cmd: string, type: chatId}
+    CHAT_COMMAND = "chat.command", 
 
-    AREAS = "areas", //needed to reverse
+    AREAS = "areas",
 
 
 
