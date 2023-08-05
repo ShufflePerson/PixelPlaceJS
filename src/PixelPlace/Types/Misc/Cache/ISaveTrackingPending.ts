@@ -1,4 +1,6 @@
-type ISaveTrackingPending = "error" | {
-    pixels: number[],
-    names: string[]
-}
+type ISaveTrackingPending =
+  | "error"
+  | {
+      pixels: number[];
+      names: string[];
+    };

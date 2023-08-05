@@ -1,7 +1,7 @@
-import registerTransports from './registerTransports';
+import registerTransports from "./registerTransports";
 
 function initLogger() {
-    registerTransports();
+  registerTransports();
 }
 
 export default initLogger;

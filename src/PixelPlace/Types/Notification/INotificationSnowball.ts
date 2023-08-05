@@ -1,7 +1,7 @@
 interface INotificationSnowball {
-    from: string;
-    to: string;
-    snowballed: number;
+  from: string;
+  to: string;
+  snowballed: number;
 }
 
 export default INotificationSnowball;

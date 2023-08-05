@@ -1,5 +1,5 @@
-import randomua from 'random-useragent'
+import randomua from "random-useragent";
 
-export default ((): string => {
-    return randomua.getRandom()
-})
+export default (): string => {
+  return randomua.getRandom();
+};

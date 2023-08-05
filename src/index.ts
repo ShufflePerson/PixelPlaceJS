@@ -2,39 +2,42 @@ import initLogger from "./Logging/initLogger";
 import EPackets from "./PixelPlace/Enums/EPackets";
 import PixelPlace from "./PixelPlace/PixelPlace";
 import World from "./PixelPlace/World/World";
-import fs from 'fs';
-import Types from './PixelPlace/Types/Types'
+import fs from "fs";
+import Types from "./PixelPlace/Types/Types";
 
 export { World };
 export { PixelPlace };
 export { EPackets };
 export { Types };
 
-
 if (require.main === module) {
-    (async () => {
-        if(!fs.existsSync("./temp")) fs.mkdirSync("./temp");
-        if(!fs.existsSync("./data")) fs.mkdirSync("./data");
+  (async () => {
+    if (!fs.existsSync("./temp")) fs.mkdirSync("./temp");
+    if (!fs.existsSync("./data")) fs.mkdirSync("./data");
 
-        initLogger();
-    
-        let world = new World(7);
-        let pp = new PixelPlace(fs.readFileSync("./accounts.txt", "utf-8").split("\n"), world, 7);
+    initLogger();
 
-        pp.render.drawRect({
-            x: 1234,
-            y: 1234
-        }, {
-            x: 100,
-            y: 100
-        }, 3)
+    let world = new World(7);
+    let pp = new PixelPlace(fs.readFileSync("./accounts.txt", "utf-8").split("\n"), world, 7);
 
-        await world.Init();
+    pp.render.drawRect(
+      {
+        x: 1234,
+        y: 1234
+      },
+      {
+        x: 100,
+        y: 100
+      },
+      3
+    );
 
-        world.on(EPackets.NEW_CHAT_MESSAGE, (message: Types.Chat.ChatMessage) => {
-            console.log(`${message.username}: ${message.message}`)
-        })
+    await world.Init();
 
-        console.log("PP is running")
-    })()
+    world.on(EPackets.NEW_CHAT_MESSAGE, (message: Types.Chat.ChatMessage) => {
+      console.log(`${message.username}: ${message.message}`);
+    });
+
+    console.log("PP is running");
+  })();
 }

@@ -28,65 +28,63 @@ import ISpecialError from "./User/Error/ISpecialError";
 import IUser from "./User/IUser";
 import IUserProfile from "./User/IUserProfile";
 
-
 namespace Types {
-    export namespace Auth {
-        export type Error = IError;
-    }
+  export namespace Auth {
+    export type Error = IError;
+  }
 
-    export namespace Canvas {
-        export type CanvasAccessRequested = ICanvasAccessRequested;
-        export type CanvasAlert = ICanvasAlert;
-        export type CanvasSuccess = ICanvasSuccess;
-        export type HotPaintings = IHotPaintings;
-        export type PaintingPlayers = IPaintingPlayers;
-    }
+  export namespace Canvas {
+    export type CanvasAccessRequested = ICanvasAccessRequested;
+    export type CanvasAlert = ICanvasAlert;
+    export type CanvasSuccess = ICanvasSuccess;
+    export type HotPaintings = IHotPaintings;
+    export type PaintingPlayers = IPaintingPlayers;
+  }
 
-    export namespace Chat {
-        export namespace Delete {
-            export type ChatPaintingDelete = IChatPaintingDelete;
-            export type ChatSytemDelete = IChatSytemDelete;
-        }
-        export type ChatCommand = IChatCommand;
-        export type ChatCustomAnnounce = IChatCustomAnnounce;
-        export type ChatCustomMessage = IChatCustomMessage;
-        export type ChatMessage = IChatMessage;
-        export type ChatStats = IChatStats;
-        export type ChatSystemMessage = IChatSystemMessage;
+  export namespace Chat {
+    export namespace Delete {
+      export type ChatPaintingDelete = IChatPaintingDelete;
+      export type ChatSytemDelete = IChatSytemDelete;
     }
+    export type ChatCommand = IChatCommand;
+    export type ChatCustomAnnounce = IChatCustomAnnounce;
+    export type ChatCustomMessage = IChatCustomMessage;
+    export type ChatMessage = IChatMessage;
+    export type ChatStats = IChatStats;
+    export type ChatSystemMessage = IChatSystemMessage;
+  }
 
-    export namespace Misc {
-        export namespace Cache {
-            export type SaveTrackingCache = ISaveTrackingCache;
-            export type SaveTrackingPending = ISaveTrackingPending;
-        }
-        export namespace Cooldown {
-            export type Cooldown = ICooldown;
-            export type CooldownDot = ICooldownDot;
-        }
-        export namespace Fight {
-            export type Fight = IFight;
-            export type FightEnd = IFightEnd;
-        }
-        export type Queue = IQueue;
-        export type UsedItem = IUsedItem;
+  export namespace Misc {
+    export namespace Cache {
+      export type SaveTrackingCache = ISaveTrackingCache;
+      export type SaveTrackingPending = ISaveTrackingPending;
     }
+    export namespace Cooldown {
+      export type Cooldown = ICooldown;
+      export type CooldownDot = ICooldownDot;
+    }
+    export namespace Fight {
+      export type Fight = IFight;
+      export type FightEnd = IFightEnd;
+    }
+    export type Queue = IQueue;
+    export type UsedItem = IUsedItem;
+  }
 
-    export namespace Notification {
-        export type CoinsGiftNotification = ICoinsGiftNotification;
-        export type GoldenNotification = IGoldenNotification;
-        export type NotificationGift = INotificationGift;
-        export type NotificationSnowball = INotificationSnowball;
-    }
+  export namespace Notification {
+    export type CoinsGiftNotification = ICoinsGiftNotification;
+    export type GoldenNotification = IGoldenNotification;
+    export type NotificationGift = INotificationGift;
+    export type NotificationSnowball = INotificationSnowball;
+  }
 
-    export namespace User {
-        export namespace Error {
-            export type SpecialError = ISpecialError;
-        }
-        export type User = IUser;
-        export type UserProfile = IUserProfile;
+  export namespace User {
+    export namespace Error {
+      export type SpecialError = ISpecialError;
     }
+    export type User = IUser;
+    export type UserProfile = IUserProfile;
+  }
 }
-
 
 export default Types;
