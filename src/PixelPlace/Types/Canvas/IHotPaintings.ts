@@ -5,4 +5,6 @@ type IHotPaintings = {
     id: number
 }[]
 
+export default IHotPaintings;
+
 //not fully finished
