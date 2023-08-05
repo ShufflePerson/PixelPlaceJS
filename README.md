@@ -11,7 +11,7 @@ This is only required for developers
 
 1. Clone the repo `git clone https://github.com/DarknessTomDev/Onehook`
 2. Install packages by running `npm install`
-3. Run `run-dev` to start
+3. Run `npm run run-dev` to start onehook.
 
 ## Usage
 
