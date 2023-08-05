@@ -1,6 +1,18 @@
 # Onehook
 Fully documented and strongly typed nodejs libary for PixelPlace.io
 
+
+## Installation
+
+
+## Developing
+
+This is only required for developers
+
+1. Clone the repo `git clone https://github.com/DarknessTomDev/Oneh`
+2. Install packages by running `npm install`
+3. Run `run-dev` to start
+
 ## Usage
 
 ### Listen for events using the `world` module
