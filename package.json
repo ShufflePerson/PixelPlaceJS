@@ -6,8 +6,8 @@
   "scripts": {
     "compile": "tsc",
     "dev": "nodemon src/index.ts",
-    "run-dev": "prettier-format && ts-node src/index.ts",
-    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
+    "run-dev": "npm run prettier-format && ts-node src/index.ts",
+    "prettier-format": "prettier --config .prettierrc ./src/**/*.ts --write"
   },
   "dependencies": {
     "@types/random-useragent": "^0.3.1",
