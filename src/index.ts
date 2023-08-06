@@ -17,7 +17,7 @@ export { Utils };
 initLogger();
 
 if (require.main === module) {
-  (async () => 
+  (async () => {
     if (!fs.existsSync("./temp")) fs.mkdirSync("./temp");
     if (!fs.existsSync("./data")) fs.mkdirSync("./data");
 
