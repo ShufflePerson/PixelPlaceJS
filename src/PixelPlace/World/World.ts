@@ -14,10 +14,16 @@ class World {
   private canvasWidth: number = 3000;
   private canvasHeight: number = 3000;
   private canvas: Buffer;
+  private auth: Auth;
   public registeredCallbacks: Map<EPackets, Function> = new Map<EPackets, Function>();
 
-  constructor(private boardId: number) {
-    this.connection = new Connection(new Auth("", ""), boardId, true);
+  constructor(
+    private boardId: number,
+    email: string = "",
+    password: string = ""
+  ) {
+    this.auth = new Auth(email, password)
+    this.connection = new Connection(this.auth, boardId, email == "");
     this.canvas = Buffer.alloc(this.canvasWidth * this.canvasHeight * 4).fill(-1);
   }
 
@@ -26,19 +32,13 @@ class World {
   }
 
   public async Init() {
+    await this.auth.Login();
     await this.connection.Init();
     this.connection.registerOnMessage(onNetworkMessage, this);
 
     let canvasPng = await fetchCanvasPNG(this.boardId);
 
-    let startTime = performance.now();
     await writeImageData(canvasPng, this);
-    let endTime = performance.now();
-
-    let diff = endTime - startTime;
-    console.log(diff / 1000);
-
-    fs.writeFileSync("dump.dump", this.canvas);
   }
 
   public syncPixels(pixels: number[][]) {
