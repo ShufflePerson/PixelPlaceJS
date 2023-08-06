@@ -4,39 +4,38 @@ import PixelPlace from "./PixelPlace/PixelPlace";
 import World from "./PixelPlace/World/World";
 import fs from "fs";
 import Types from "./PixelPlace/Types/Types";
+import packPixel from "./PixelPlace/World/Utils/packPixel";
+import Utils from "./Utils";
 
 export { World };
 export { PixelPlace };
 export { EPackets };
 export { Types };
+export { Utils };
+
+
+initLogger();
 
 if (require.main === module) {
-  (async () => {
+  (async () => 
     if (!fs.existsSync("./temp")) fs.mkdirSync("./temp");
     if (!fs.existsSync("./data")) fs.mkdirSync("./data");
 
-    initLogger();
 
     let world = new World(7);
-    let pp = new PixelPlace(fs.readFileSync("./accounts.txt", "utf-8").split("\n"), world, 7);
-
-    pp.render.drawRect(
-      {
-        x: 1234,
-        y: 1234
-      },
-      {
-        x: 100,
-        y: 100
-      },
-      3
-    );
-
     await world.Init();
 
-    world.on(EPackets.NEW_CHAT_MESSAGE, (message: Types.Chat.ChatMessage) => {
-      console.log(`${message.username}: ${message.message}`);
-    });
+    let pp = new PixelPlace([""], world, 7);
+    await pp.Init();
+
+    await pp.render.drawRect({
+        x: 1276,
+        y: 1242
+    }, {
+        x: 100,
+        y: 100
+    }, 5) 
+    
 
     console.log("PP is running");
   })();
