@@ -19,6 +19,28 @@ This is only required for developers
 
 ## Usage
 
+## Logging in after captcha update
+
+After PixelPlace added captcha, you no longer can login directly using this library. 
+
+For now, create a `data` folder and inside it put `cache.json`
+
+Inside `cache.json` you can enter session details as follows:
+
+```json
+    "SampleEmail@gmail.com": {
+        "authId": "AUTHID_GOES_HERE",
+        "authKey": "AUTHKEY_GOES_HERE",
+        "authToken": "AUTHTOKEN_GOES_HERE"
+    }
+```
+
+Inside code you simply need to match the email:
+
+```js
+new PixelPlace(["SampleEmail@gmail.com"], world, CANVAS_ID);
+```
+
 ### Listen for events using the `world` module
 
 
