@@ -98,3 +98,26 @@ import { World, PixelPlace } from 'pixelplacejs'
 
 
 ```
+
+
+### Utils
+
+PixelplaceJS also lets you access various of utility methods.
+
+```js
+const { Utils } = require("pixelplacejs");
+const fs = require("fs");
+
+(async () => {
+    const CANVAS_ID = /;
+    let canvasBuffer = Utils.getLatestCanvasPNG(CANVAS_ID);
+    let pixelplaceColor = Utils.getColorFromRGB(255, 255, 255);
+    let palive = Utils.generatePingAlive();
+
+    fs.writeFileSync(canvasBuffer, "map.png");
+    console.log(`White's PixelPlace color ID is: ${pixelplaceColor}`);
+    console.log(`Valid palive at the current second is ${palive()}`);
+})()
+
+
+```
