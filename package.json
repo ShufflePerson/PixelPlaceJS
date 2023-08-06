@@ -1,8 +1,8 @@
 {
   "name": "pixelplacejs",
-  "description": "",
-  "version": "1.0.0",
-  "main": "index.js",
+  "description": "PixelPlace library that supports all packet types of PixelPlace. Supports multi-botting along side listening for any server event. ",
+  "version": "1.0.4",
+  "main": "src/index.js",
   "scripts": {
     "compile": "tsc",
     "dev": "nodemon src/index.ts",
