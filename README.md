@@ -2,10 +2,14 @@
 Fully documented and strongly typed nodejs libary for PixelPlace.io
 
 
-## Installation
+## Using the library
+
+To install the library run `npm install pixelplacejs`
+
+Proceed to Usage section
 
 
-## Developing
+## Developing the library
 
 This is only required for developers
 
@@ -17,9 +21,34 @@ This is only required for developers
 
 ### Listen for events using the `world` module
 
+
+#### Javascript
+
+```js
+
+const { World, EPackets } = require("pixelplacejs")
+
+(async () => {
+
+    const CANVAS_ID = 7;
+
+    let world = new World(CANVAS_ID);
+    await world.Init();
+
+    world.on(EPackets.NEW_CHAT_MESSAGE, (message) => {
+        console.log(`${message.username}: ${message.message}`)
+    })
+
+    console.log("PP is running")
+})()
+
+```
+
+#### Typescript
+
 ```ts
 
-import { World, EPackets, Types } from 'PixelPlaceJS'
+import { World, EPackets, Types } from 'pixelplacejs'
 
 (async () => {
 
@@ -41,7 +70,7 @@ import { World, EPackets, Types } from 'PixelPlaceJS'
 
 ```ts
 
-import { World, PixelPlace } from 'PixelPlaceJS'
+import { World, PixelPlace } from 'pixelplacejs'
 
 (async () => {
 
