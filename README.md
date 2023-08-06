@@ -28,11 +28,13 @@ For now, create a `data` folder and inside it put `cache.json`
 Inside `cache.json` you can enter session details as follows:
 
 ```json
+{
     "SampleEmail@gmail.com": {
         "authId": "AUTHID_GOES_HERE",
         "authKey": "AUTHKEY_GOES_HERE",
         "authToken": "AUTHTOKEN_GOES_HERE"
     }
+}
 ```
 
 Inside code you simply need to match the email:
@@ -143,3 +145,8 @@ const fs = require("fs");
 
 
 ```
+
+
+## Contact
+
+For any help, issues or general contact, you can reach out to me on my discord: `_.shuffle._`
