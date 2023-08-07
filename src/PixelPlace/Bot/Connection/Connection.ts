@@ -35,7 +35,7 @@ class Connection {
       this.ws.on("open", () => {
         winston.log("info", "WebSocket Connection opened.", "Connection");
 
-        if (!this.isGuest)
+        if (this.auth.getSessionData())
           this.emit(EPackets.INIT, {
             ...this.auth.getSessionData(),
             boardId: this.boardId
