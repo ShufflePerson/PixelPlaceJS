@@ -38,13 +38,11 @@ export async function drawLinearImage(position: IVector2D, imagePath: string, si
       width,
       height
     }
-  }
-
+  };
 
   if (protect) {
     pixelplace.RegisterProtectionZone(position.x, position.y, imageData);
   }
-
 
   for (let h = 0; h < height; h++) {
     for (let w = 0; w < width; w++) {
@@ -55,5 +53,4 @@ export async function drawLinearImage(position: IVector2D, imagePath: string, si
   }
 
   return imageData;
-
 }
