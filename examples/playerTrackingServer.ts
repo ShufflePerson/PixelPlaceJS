@@ -1,6 +1,5 @@
-import { World, PixelPlace, EPackets, Types } from '../src/'
+import { World, PixelPlace, EPackets, Types, Auth } from '../src/'
 import { WebSocketServer, WebSocket } from 'ws';
-import fs from 'fs';
 
 
 const wss = new WebSocketServer({ port: 8080 });
@@ -46,11 +45,14 @@ function sendDataToClients(data: number[][]) {
 
 (async () => {
     let currentData: number[][] = [];
-    if (!fs.existsSync("./temp")) fs.mkdirSync("./temp");
-    if (!fs.existsSync("./data")) fs.mkdirSync("./data");
 
+    let account = new Auth(null, {
+        authId: "", //Fill out these values
+        authKey: "",
+        authToken: ""
+    })
 
-    let world = new World(7, "", "");
+    let world = new World(7, account);
     await world.Init();
 
     world.on(EPackets.PIXEL, (pixels: number[][]) => {
