@@ -9,13 +9,12 @@ import EError from "../../Types/Auth/EError";
 import fs from "fs";
 import { customRandomString } from "../../Helpers/getPAlive";
 import winston from "winston";
+import ILoginData from "./Types/ILoginData";
 
 class Auth {
-  private sessionData: ISessionData | null = null;
-
   constructor(
-    private email: string,
-    private password: string,
+    private loginData: ILoginData | null,
+    private sessionData: ISessionData | null = null,
     private userAgent: string = getUA(),
     private axios: AxiosInstance = Axios.create({})
   ) {
@@ -46,12 +45,8 @@ class Auth {
   }
 
   public getEmail(): string {
-    return this.email;
+    return this.loginData?.email || "";
   }
-
-  // public setProxy(proxy: string) {
-  //    console.warn(`setProxy function is not yet finished.`)
-  // }
 
   private saveCache() {
     let currentCache = JSON.parse(fs.readFileSync("./data/cache.json", "utf-8"));
@@ -76,8 +71,8 @@ class Auth {
 
   public async Login(): Promise<ISessionData | IError> {
     try {
-      if (this.attemptLoadCache() && this.sessionData) return this.sessionData;
-      let res = await this.axios.post(Config.LOGIN_URL, `email=${this.email}&password=${this.password}`, this.getAxiosConfig());
+      if (this.sessionData != null || (this.attemptLoadCache() && this.sessionData)) return this.sessionData;
+      let res = await this.axios.post(Config.LOGIN_URL, `email=${this.loginData?.email}&password=${this.loginData?.email}`, this.getAxiosConfig());
 
       if (JSON.stringify(res.data) == "[]") {
         let sesData = parseSessionData(res);
