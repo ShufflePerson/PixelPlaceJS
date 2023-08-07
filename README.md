@@ -19,30 +19,6 @@ This is only required for developers
 
 ## Usage
 
-## Logging in after captcha update
-
-After PixelPlace added captcha, you no longer can login directly using this library. 
-
-For now, create a `data` folder and inside it put `cache.json`
-
-Inside `cache.json` you can enter session details as follows:
-
-```json
-{
-    "SampleEmail@gmail.com": {
-        "authId": "AUTHID_GOES_HERE",
-        "authKey": "AUTHKEY_GOES_HERE",
-        "authToken": "AUTHTOKEN_GOES_HERE"
-    }
-}
-```
-
-Inside code you simply need to match the email:
-
-```js
-new PixelPlace(["SampleEmail@gmail.com"], world, CANVAS_ID);
-```
-
 ### Listen for events using the `world` module
 
 
@@ -100,11 +76,19 @@ import { World, PixelPlace } from 'pixelplacejs'
 
     const CANVAS_ID = 7;
 
+    let accounts: Auth[] = [
+        new Auth(null, {
+            authId: "", //Fill these values
+            authKey: "",
+            authToken: ""
+        })
+    ]
+
     let world = new World(CANVAS_ID);
     await world.Init();
     console.log("World is ready!")
 
-    let pp = new PixelPlace(["myEmail@gmail.com:MyPassword123@"], world, CANVAS_ID);
+    let pp = new PixelPlace(accounts, world, CANVAS_ID);
     await pp.Init();
     console.log("PP is ready!")
 
@@ -141,7 +125,7 @@ const { Utils } = require("pixelplacejs");
 const fs = require("fs");
 
 (async () => {
-    const CANVAS_ID = /;
+    const CANVAS_ID = 7;
     let canvasBuffer = Utils.getLatestCanvasPNG(CANVAS_ID);
     let pixelplaceColor = Utils.getColorFromRGB(255, 255, 255);
     let palive = Utils.generatePingAlive();
