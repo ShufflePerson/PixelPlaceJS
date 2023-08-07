@@ -41,7 +41,6 @@ class Bot {
     if (this.world.getPixel(x, y)[2] == color) return true;
 
     this.lastPixelPlace = time;
-
     this.connection.sendPlacePixel(x, y, color);
 
     return true;
