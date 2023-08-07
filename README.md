@@ -109,7 +109,7 @@ import { World, PixelPlace } from 'pixelplacejs'
     console.log("PP is ready!")
 
     let [x, y] = [1336, 1839];
-    await pixelplace.render.drawImage({x, y}, "test.png", 200, true);
+    await pp.render.drawImage({x, y}, "test.png", 200, true);
 
 })()
 
