@@ -90,7 +90,7 @@ import { World, EPackets, Types } from 'pixelplacejs'
 
 ```
 
-### Use one or more bots to draw
+### Use one or more bots to draw an image
 
 ```ts
 
@@ -108,19 +108,27 @@ import { World, PixelPlace } from 'pixelplacejs'
     await pp.Init();
     console.log("PP is ready!")
 
-
-    pp.render.drawRect({
-        x: 1234,
-        y: 1234
-    }, {
-        x: 100,
-        y: 100
-    }, 3)
-
+    let [x, y] = [1336, 1839];
+    await pixelplace.render.drawImage({x, y}, "test.png", 200, true);
 
 })()
 
 
+```
+
+### Render Public Functions
+
+```ts
+Render.drawImage(position: IVector2D, imagePath: string, size: number, protect: boolean = false): Promise<IImageData>
+Render.drawRect(position: IVector2D, size: IVector2D, color: number): Promise<void>
+```
+
+### PixelPlace Public Functions
+
+```ts
+PixelPlace.Init(): Promise<void>
+PixelPlace.RegisterProtectionZone(startX: number, startY: number, original: IImageData): void
+PixelPlace.placePixel(x: number, y: number, color: number): Promise<Boolean>
 ```
 
 
