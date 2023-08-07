@@ -1,9 +1,10 @@
 import winston from "winston";
 
-function registerTransports() {
+function registerTransports(dev: boolean) {
   winston.add(
     new winston.transports.Console({
       debugStdout: true,
+      level: dev ? "debug" : "error",
       format: winston.format.combine(
         winston.format.timestamp(),
         winston.format.printf((data) => {
