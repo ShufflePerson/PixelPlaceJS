@@ -130,3 +130,9 @@ data
 temp
 accounts.txt
 aaccounts.txt
+examples
+www
+test.png
+.vscode
+.gitattributes
+.prettierrc
