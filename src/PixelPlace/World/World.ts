@@ -20,7 +20,7 @@ class World {
     email: string = "",
     password: string = ""
   ) {
-    this.auth = new Auth(email, password)
+    this.auth = new Auth(email, password);
     this.connection = new Connection(this.auth, boardId, email == "");
     this.canvas = Buffer.alloc(this.canvasWidth * this.canvasHeight * 4);
   }
