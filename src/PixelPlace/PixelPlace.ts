@@ -3,9 +3,13 @@ import Bot from "./Bot/Bot";
 import winston from "winston";
 import Render from "./Render/Render";
 import World from "./World/World";
+import IImageData from "./Render/Types/IImageData";
+import EPackets from "./Enums/EPackets";
+import isInsidePoint from "./Helpers/Math/isInsidePoint";
+import unpackPixel from "./World/Utils/unPackPixel";
 
 class PixelPlace {
-  private bots: Bot[] = [];
+  public bots: Bot[] = [];
   public render: Render;
 
   constructor(
@@ -29,7 +33,38 @@ class PixelPlace {
       }
     }, 100);
 
-    this.render = new Render([]);
+    this.render = new Render(this);
+  }
+  
+  public RegisterProtectionZone(startX: number, startY: number, original: IImageData) {
+    const { width, height } = original.metadata;
+    
+    this.world.on(EPackets.PIXEL, (pixels: number[][]) => {
+      for (let pixel of pixels) {
+        let [x, y, color] = pixel;
+        if (isInsidePoint({x: startX, y: startY}, {x: width, y: height}, {x, y})) {
+          let originalPixel = unpackPixel(original.buffer, ((y - startY) * (width) + (x - startX)) * 4)
+          this.placePixel(x, y, originalPixel[2]);
+          
+        }
+      }
+    })
+  }
+
+  public async placePixel(x: number, y: number, color: number): Promise<Boolean> {
+    let pixelPlaced = false;
+
+    while (!pixelPlaced) {
+      for (let bot of this.bots) {
+        pixelPlaced = bot.placePixel(x, y, color);
+        if (pixelPlaced)
+          break;
+      }
+
+      await new Promise((resolve) => setImmediate(resolve));
+    }
+
+    return pixelPlaced;
   }
 
   public async Init() {
@@ -45,7 +80,7 @@ class PixelPlace {
       throw new Error("No valid accounts.");
     }
 
-    this.render = new Render(this.bots);
+    this.render = new Render(this);
     winston.log("info", "Bots are ready.", "PixelPlace", this.bots.length);
   }
 }
