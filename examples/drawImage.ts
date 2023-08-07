@@ -1,18 +1,26 @@
-import { PixelPlace, World, Types, EPackets } from '../src/index'
+import { PixelPlace, World, Auth } from '../src/index'
 
 
 
 async function main() {
-    let world = new World(7);
-    let pixelplace = new PixelPlace(["email@gmail.com"], world, 7);
+
+    let accounts: Auth[] = [
+        new Auth(null, {
+            authId: "", //Fill these values
+            authKey: "",
+            authToken: ""
+        })
+    ]
+
+    let world = new World(7, accounts[0]);
+    let pixelplace = new PixelPlace(accounts, world, 7);
 
     await world.Init();
     await pixelplace.Init();
 
-    pixelplace.render.drawImage({
-        x: 1283,
-        y: 1579
-    },"test.png", 60);
+    let [x, y] = [1336, 1839];
+
+    let imageData = await pixelplace.render.drawImage({x, y}, "test.png", 200, true);
 }
 
 main();
