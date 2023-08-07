@@ -6,22 +6,21 @@ import writeImageData from "../Helpers/Render/writeImageData";
 import { onNetworkMessage } from "./Callbacks/onNetworkMessage";
 import fetchCanvasPNG from "./Utils/fetchCanvasPNG";
 import EPackets from "../Enums/EPackets";
+import ISessionData from "../Types/PixelPlace/ISessionData";
+import ILoginData from "../Bot/Auth/Types/ILoginData";
 
 class World {
   private connection: Connection;
   private canvasWidth: number = 3000;
   private canvasHeight: number = 3000;
   private canvas: Buffer;
-  private auth: Auth;
   public registeredCallbacks: Map<EPackets, Function> = new Map<EPackets, Function>();
 
   constructor(
     private boardId: number,
-    email: string = "",
-    password: string = ""
+    private auth: Auth = new Auth(null, null)
   ) {
-    this.auth = new Auth(email, password);
-    this.connection = new Connection(this.auth, boardId, email == "");
+    this.connection = new Connection(this.auth, boardId);
     this.canvas = Buffer.alloc(this.canvasWidth * this.canvasHeight * 4);
   }
 
