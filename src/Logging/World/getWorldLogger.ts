@@ -6,7 +6,7 @@ let logger: winston.Logger | null = null;
 
 export default (): winston.Logger => {
   if (logger == null) {
-    if(isDev()) {
+    if (isDev()) {
       fs.writeFileSync("./logs/world/debug.log", "");
       fs.writeFileSync("./logs/world/info.log", "");
     }
@@ -28,14 +28,18 @@ export default (): winston.Logger => {
       ),
       defaultMeta: {},
       transports: [
-        isDev() ? new winston.transports.File({
-          filename: "./logs/world/debug.log",
-          level: "debug"
-        }) : new winston.transports.Console({level: "error"}),
-        isDev() ? new winston.transports.File({
-          filename: "./logs/world/info.log",
-          level: "info"
-        }) : new winston.transports.Console({level: "error"}),
+        isDev()
+          ? new winston.transports.File({
+              filename: "./logs/world/debug.log",
+              level: "debug"
+            })
+          : new winston.transports.Console({ level: "error" }),
+        isDev()
+          ? new winston.transports.File({
+              filename: "./logs/world/info.log",
+              level: "info"
+            })
+          : new winston.transports.Console({ level: "error" })
       ]
     });
   }

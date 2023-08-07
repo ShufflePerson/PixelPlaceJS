@@ -11,5 +11,4 @@ export { EPackets };
 export { Types };
 export { Utils };
 
-
 initLogger();

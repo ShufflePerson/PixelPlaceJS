@@ -60,7 +60,7 @@ class Auth {
   }
 
   private attemptLoadCache(): boolean {
-    if(!fs.existsSync("./data/cache.json")) return false;
+    if (!fs.existsSync("./data/cache.json")) return false;
     let currentCache = JSON.parse(fs.readFileSync("./data/cache.json", "utf-8"));
     if (currentCache[this.getEmail()]) {
       this.sessionData = currentCache[this.getEmail()];
