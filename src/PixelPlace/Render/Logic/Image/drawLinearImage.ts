@@ -8,7 +8,7 @@ import IImageData from "../../Types/IImageData";
 import PixelPlace from "../../../PixelPlace";
 
 export async function drawLinearImage(position: IVector2D, imagePath: string, size: number, protect: boolean, pixelplace: PixelPlace): Promise<IImageData> {
-  const imageInfo = await sharp(imagePath).resize(size).raw().toBuffer({ resolveWithObject: true });
+  const imageInfo = await sharp(imagePath).raw().toBuffer({ resolveWithObject: true });
 
   const { data, info } = imageInfo;
   const { channels, width, height } = info;
@@ -16,20 +16,17 @@ export async function drawLinearImage(position: IVector2D, imagePath: string, si
 
   let imageBuffer: Buffer = Buffer.alloc(pixelCount * 4);
 
+
   for (let pixelIndex = 0; pixelIndex < pixelCount; pixelIndex += channels) {
     const alpha = data[pixelIndex + 3];
+    const x = (pixelIndex / channels) % width;
+    const y = Math.floor(pixelIndex / channels / width);
+    const r = data[pixelIndex];
+    const g = data[pixelIndex + 1];
+    const b = data[pixelIndex + 2];
 
-    if (alpha >= 0.5) {
-      const x = (pixelIndex / channels) % width;
-      const y = Math.floor(pixelIndex / channels / width);
-
-      const r = data[pixelIndex];
-      const g = data[pixelIndex + 1];
-      const b = data[pixelIndex + 2];
-
-      let pxpColor = getPxPColor(r, g, b);
-      packPixel(imageBuffer, (y * width + x) * 4, x, y, pxpColor);
-    }
+    let pxpColor = getPxPColor(r, g, b);
+    packPixel(imageBuffer, (y * width + x) * 4, x, y, pxpColor);
   }
 
   let imageData: IImageData = {
