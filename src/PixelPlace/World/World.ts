@@ -5,8 +5,6 @@ import packPixel from "./Utils/packPixel";
 import writeImageData from "../Helpers/Render/writeImageData";
 import { onNetworkMessage } from "./Callbacks/onNetworkMessage";
 import fetchCanvasPNG from "./Utils/fetchCanvasPNG";
-import fs from "fs";
-import IRegisterableCallbacks from "./Types/IRegisterableCallbacks";
 import EPackets from "../Enums/EPackets";
 
 class World {
@@ -24,7 +22,7 @@ class World {
   ) {
     this.auth = new Auth(email, password)
     this.connection = new Connection(this.auth, boardId, email == "");
-    this.canvas = Buffer.alloc(this.canvasWidth * this.canvasHeight * 4).fill(-1);
+    this.canvas = Buffer.alloc(this.canvasWidth * this.canvasHeight * 4);
   }
 
   public on(identifier: EPackets, callback: Function) {
