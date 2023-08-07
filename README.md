@@ -70,7 +70,7 @@ import { World, EPackets, Types } from 'pixelplacejs'
 
 ```ts
 
-import { World, PixelPlace } from 'pixelplacejs'
+import { World, PixelPlace, Auth } from 'pixelplacejs'
 
 (async () => {
 
