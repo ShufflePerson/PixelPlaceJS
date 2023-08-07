@@ -15,9 +15,9 @@ export async function writeImageData(imageBuffer: Buffer, world: World): Promise
     if (alpha > 0.6) {
       const x = (pixelIndex / channels) % width;
       const y = Math.floor(pixelIndex / channels / width);
-
+      
       const pixelB = world.getPixel(x, y);
-      if (pixelB[0] == -1) {
+      if (pixelB[0] == 0 && pixelB[1] == 0 && pixelB[2] == 0) {
         const r = data[pixelIndex];
         const g = data[pixelIndex + 1];
         const b = data[pixelIndex + 2];
