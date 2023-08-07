@@ -13,15 +13,12 @@ class PixelPlace {
   public render: Render;
 
   constructor(
-    private accounts: string[],
+    private auths: Auth[],
     private world: World,
     private boardId: number
   ) {
-    for (let account of accounts) {
-      let username = account.split(":")[0];
-      let password = account.split(":")[1] || username;
-
-      this.bots.push(new Bot(new Auth(username, password), world, boardId));
+    for (let auth of auths) {
+      this.bots.push(new Bot(auth, world, boardId));
     }
 
     setInterval(() => {
@@ -35,20 +32,19 @@ class PixelPlace {
 
     this.render = new Render(this);
   }
-  
+
   public RegisterProtectionZone(startX: number, startY: number, original: IImageData) {
     const { width, height } = original.metadata;
-    
+
     this.world.on(EPackets.PIXEL, (pixels: number[][]) => {
       for (let pixel of pixels) {
         let [x, y, color] = pixel;
-        if (isInsidePoint({x: startX, y: startY}, {x: width, y: height}, {x, y})) {
-          let originalPixel = unpackPixel(original.buffer, ((y - startY) * (width) + (x - startX)) * 4)
+        if (isInsidePoint({ x: startX, y: startY }, { x: width, y: height }, { x, y })) {
+          let originalPixel = unpackPixel(original.buffer, ((y - startY) * width + (x - startX)) * 4);
           this.placePixel(x, y, originalPixel[2]);
-          
         }
       }
-    })
+    });
   }
 
   public async placePixel(x: number, y: number, color: number): Promise<Boolean> {
@@ -57,8 +53,7 @@ class PixelPlace {
     while (!pixelPlaced) {
       for (let bot of this.bots) {
         pixelPlaced = bot.placePixel(x, y, color);
-        if (pixelPlaced)
-          break;
+        if (pixelPlaced) break;
       }
 
       await new Promise((resolve) => setImmediate(resolve));
