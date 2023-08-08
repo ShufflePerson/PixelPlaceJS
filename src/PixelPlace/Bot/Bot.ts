@@ -33,6 +33,7 @@ class Bot {
     return this.auth.getEmail();
   }
 
+  //todo: return the amount needed to wait
   public placePixel(x: number, y: number, color: number, force: boolean = false): boolean {
     let time = Date.now();
     let diff = time - this.lastPixelPlace;
