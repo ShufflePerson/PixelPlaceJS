@@ -33,12 +33,12 @@ class Bot {
     return this.auth.getEmail();
   }
 
-  public placePixel(x: number, y: number, color: number): boolean {
+  public placePixel(x: number, y: number, color: number, force: boolean = false): boolean {
     let time = Date.now();
     let diff = time - this.lastPixelPlace;
     if (diff < 20) return false;
 
-    if (this.world.getPixel(x, y)[2] == color) return true;
+    if (!force && this.world.getPixel(x, y)[2] == color) return true;
 
     this.lastPixelPlace = time;
     this.connection.sendPlacePixel(x, y, color);
