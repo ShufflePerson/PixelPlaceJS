@@ -16,7 +16,7 @@ function onNetworkMessage(world: World, rawMessage: string) {
   let parsed = parseIncomingMessage(rawMessage);
   if (!parsed.data && !parsed.identifier) return;
 
-  let callbackFunction = world.registeredCallbacks.get(parsed.identifier as EPackets);
+  let cbFunctions = world.registeredCallbacks.get(parsed.identifier as EPackets);
   let formattedData: any = parsed.data;
 
   switch (parsed.identifier) {
@@ -70,8 +70,8 @@ function onNetworkMessage(world: World, rawMessage: string) {
       break;
   }
 
-  if (callbackFunction) {
-    for (let func of callbackFunction) {
+  if (cbFunctions) {
+    for (let func of cbFunctions) {
       func(formattedData);
     }
     
