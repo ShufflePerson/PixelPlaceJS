@@ -10,5 +10,6 @@ export default(async (position: IVector2D, width: number, height: number, buffer
           let [x, y, color] = pixel;
           await pixelplace.placePixel(position.x + x, position.y + y, color);
         }
+      await new Promise((resolve) => setImmediate(resolve));
     }
 })
