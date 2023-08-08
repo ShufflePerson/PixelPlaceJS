@@ -7,10 +7,15 @@ import IImageData from "./Render/Types/IImageData";
 import EPackets from "./Enums/EPackets";
 import isInsidePoint from "./Helpers/Math/isInsidePoint";
 import unpackPixel from "./World/Utils/unPackPixel";
+import IVector2D from "./Render/Types/IVector2D";
 
 class PixelPlace {
   public bots: Bot[] = [];
   public render: Render;
+  private protectedZones: Array<{
+    position: IVector2D,
+    imageData: IImageData
+  }> = [];
 
   constructor(
     private auths: Auth[],
@@ -34,17 +39,14 @@ class PixelPlace {
   }
 
   public RegisterProtectionZone(startX: number, startY: number, original: IImageData) {
-    const { width, height } = original.metadata;
-    
-    this.world.on(EPackets.PIXEL, (pixels: number[][]) => {
-      for (let pixel of pixels) {
-        let [x, y, color] = pixel;
-        if (isInsidePoint({ x: startX, y: startY }, { x: width, y: height }, { x, y })) {
-          let originalPixel = unpackPixel(original.buffer, ((y - startY) * width + (x - startX)) * 4);
-          this.placePixel(x, y, originalPixel[2], true);
-        }
-      }
-    });
+    this.protectedZones.push({
+      position: {
+        x: startX,
+        y: startY
+      },
+      imageData: original
+    })
+  
   }
   
 
@@ -78,6 +80,25 @@ class PixelPlace {
     }
 
     this.render = new Render(this);
+
+    this.world.on(EPackets.PIXEL, (pixels: number[][]) => {
+      for (let protectedZone of this.protectedZones) {
+        let startX = protectedZone.position.x;
+        let startY = protectedZone.position.y;
+        let { width, height } = protectedZone.imageData.metadata;
+
+        for (let pixel of pixels) {
+          let [x, y, color] = pixel;
+          if (isInsidePoint({ x: startX, y: startY }, { x: width, y: height }, { x, y })) {
+            let originalPixel = unpackPixel(protectedZone.imageData.buffer, ((y - startY) * width + (x - startX)) * 4);
+            this.placePixel(x, y, originalPixel[2], true);
+          }
+        }
+      }
+    });
+
+
+
     winston.log("info", "Bots are ready.", "PixelPlace", this.bots.length);
   }
 }
