@@ -25,7 +25,7 @@ class Connection {
       this.ws = new WebSocket("wss://pixelplace.io/socket.io/?EIO=4&transport=websocket", {
         headers: {
           ...this.auth.getHeaders(),
-          "Sec-Websocket-Extensions": "permessage-deflate;"
+          "Sec-Websocket-Extensions": "permessage-deflate; client_max_window_bits"
         }
       });
 
@@ -35,17 +35,22 @@ class Connection {
       });
       let isReady = false;
       this.ws.on("error", this.onError);
-      this.ws.on("open", () => {
+
+      this.ws.on("open", async () => {
         winston.log("info", "WebSocket Connection opened.", "Connection");
         
         this.ws?.send("40");
+        this.ws?.send("3");
+        
+        await sleep(1000);
 
-        if (this.auth.getSessionData())
+        if (this.auth.getSessionData() != null)
           this.emit(EPackets.INIT, {
             ...this.auth.getSessionData(),
             boardId: this.boardId
           });
         else this.emit(EPackets.INIT, { authId: "", boardId: this.boardId });
+        
 
         setTimeout(() => {
           isReady = true;
@@ -53,7 +58,7 @@ class Connection {
 
         setInterval(() => {
           this.ws?.send("3");
-        }, 20000);
+        }, 4500);
       });
 
       this.ws.on("close", () => {
@@ -62,6 +67,7 @@ class Connection {
 
       while (!isReady) {
         await sleep(20);
+        await new Promise((resolve) => setImmediate(resolve));
       }
 
       return true;
@@ -73,7 +79,7 @@ class Connection {
   private async onNetworkMessage(rawMessage: string) {
     rawMessage = rawMessage.toString();
     let parsed = parseIncomingMessage(rawMessage);
-
+    
     if (!parsed.data && !parsed.identifier) return;
 
     if (parsed.identifier == EPackets.PALIVE) {
@@ -90,7 +96,7 @@ class Connection {
           break;
 
         default:
-          winston.log("error", "Error occured, most likely invalid token data.", "Connection", EWSErrorDescription[errorId], this.auth.getEmail());
+          winston.log("error", "Error occured, most likely invalid token data.", "Connection", errorId, EWSErrorDescription[errorId], this.auth.getEmail());
           this.isWorking = false;
           break;
       }
