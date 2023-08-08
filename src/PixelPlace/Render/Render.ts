@@ -20,6 +20,10 @@ class Render {
     let imageData = await convertAndGetImage(position, imagePath, size, protect, this.pixelplace);
     let { width, height } = imageData.metadata;
 
+    if (protect) {
+      this.pixelplace.RegisterProtectionZone(position.x, position.y, imageData);
+    }
+
     switch (mode) {
       case EDrawingMode.BASIC:
           await drawBasic(position, width, height, imageData.buffer, this.pixelplace);

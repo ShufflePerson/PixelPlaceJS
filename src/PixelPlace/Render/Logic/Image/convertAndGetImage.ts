@@ -37,9 +37,5 @@ export async function convertAndGetImage(position: IVector2D, imagePath: string,
     }
   };
 
-  if (protect) {
-    pixelplace.RegisterProtectionZone(position.x, position.y, imageData);
-  }
-
   return imageData;
 }
