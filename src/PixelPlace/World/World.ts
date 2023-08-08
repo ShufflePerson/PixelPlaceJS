@@ -14,7 +14,7 @@ class World {
   private canvasWidth: number = 3000;
   private canvasHeight: number = 3000;
   private canvas: Buffer;
-  public registeredCallbacks: Map<EPackets, Function> = new Map<EPackets, Function>();
+  public registeredCallbacks: Map<EPackets, Array<Function>> = new Map<EPackets, Array<Function>>();
 
   constructor(
     private boardId: number,
@@ -25,7 +25,12 @@ class World {
   }
 
   public on(identifier: EPackets, callback: Function) {
-    this.registeredCallbacks.set(identifier, callback);
+    let currentCallbacks = this.registeredCallbacks.get(identifier);
+    if (!currentCallbacks) currentCallbacks = [];
+    this.registeredCallbacks.set(identifier, [
+      ...currentCallbacks,
+      callback
+    ]);
   }
 
   public async Init() {

@@ -21,11 +21,6 @@ function onNetworkMessage(world: World, rawMessage: string) {
 
   switch (parsed.identifier) {
     case EPackets.PIXEL: //number[][]
-      if(callbackFunction) {
-        callbackFunction(parsed.data);
-        callbackFunction = undefined;
-      }
-      world.syncPixels(parsed.data);
       break;
     case EPackets.JOIN: // String
       winston.log("info", "Player Joined", "World", parsed.data);
@@ -75,9 +70,18 @@ function onNetworkMessage(world: World, rawMessage: string) {
       break;
   }
 
-  if (typeof callbackFunction == "function") {
-    callbackFunction(formattedData);
+  if (callbackFunction) {
+    for (let func of callbackFunction) {
+      func(formattedData);
+    }
+    
+    if (parsed.identifier == EPackets.PIXEL) {
+      world.syncPixels(parsed.data);
+    }
+
   }
+
+
 }
 
 export { onNetworkMessage };
