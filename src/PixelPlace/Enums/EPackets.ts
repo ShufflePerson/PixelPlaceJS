@@ -41,7 +41,8 @@ enum EPackets {
   CHAT_SYSTEM_DELETE = "chat.system.delete",
   CHAT_MESSAGES_LOADED = "chat.messages.loaded",
   CHAT_COMMAND = "chat.command",
-  AREAS = "areas"
+  AREAS = "areas",
+  SERVER_TIME = "server_time"
 }
 
 export default EPackets;

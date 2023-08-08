@@ -22,8 +22,11 @@ class Connection {
   public async Init(): Promise<boolean> {
     try {
       winston.log("info", "Starting WebSocket Connection", "Connection");
-      this.ws = new WebSocket("wss://pixelplace.io/socket.io/?EIO=3&transport=websocket", {
-        headers: this.auth.getHeaders()
+      this.ws = new WebSocket("wss://pixelplace.io/socket.io/?EIO=4&transport=websocket", {
+        headers: {
+          ...this.auth.getHeaders(),
+          "Sec-Websocket-Extensions": "permessage-deflate;"
+        }
       });
 
       winston.log("info", "Registering callbacks", "Connection");
@@ -34,6 +37,8 @@ class Connection {
       this.ws.on("error", this.onError);
       this.ws.on("open", () => {
         winston.log("info", "WebSocket Connection opened.", "Connection");
+        
+        this.ws?.send("40");
 
         if (this.auth.getSessionData())
           this.emit(EPackets.INIT, {
@@ -47,8 +52,8 @@ class Connection {
         }, 500);
 
         setInterval(() => {
-          this.ws?.send("2");
-        }, 4500);
+          this.ws?.send("3");
+        }, 20000);
       });
 
       this.ws.on("close", () => {
