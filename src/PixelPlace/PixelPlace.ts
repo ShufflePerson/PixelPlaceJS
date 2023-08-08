@@ -46,20 +46,22 @@ class PixelPlace {
       }
     });
   }
+  
 
   public async placePixel(x: number, y: number, color: number, force: boolean = false): Promise<Boolean> {
-    let pixelPlaced = false;
+    return new Promise((resolve, reject) => {
+      let interv = setInterval(() => {
+        for (let bot of this.bots) {
+          if(bot.placePixel(x, y, color, force)) {
+            resolve(true);
+            clearInterval(interv);
+            break;
+            return;
+          }
+        }
+      }, 5)
+    })
 
-    while (!pixelPlaced) {
-      for (let bot of this.bots) {
-        pixelPlaced = bot.placePixel(x, y, color, force);
-        if (pixelPlaced) break;
-      }
-
-      await new Promise((resolve) => setImmediate(resolve));
-    }
-
-    return pixelPlaced;
   }
 
   public async Init() {
