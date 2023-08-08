@@ -14,12 +14,12 @@ import getPackedPixel from "../World/Utils/getPackedPixel";
 class Render {
   constructor(private pixelplace: PixelPlace) { }
 
-  private async draw(imageData: IImageData, position: IVector2D, mode: EDrawingMode) {
+  private async draw(imageData: IImageData, position: IVector2D, mode: EDrawingMode, forceOverride: boolean) {
     let { width, height } = imageData.metadata;
 
     switch (mode) {
       case EDrawingMode.BASIC:
-          await drawBasic(position, width, height, imageData.buffer, this.pixelplace);
+          await drawBasic(position, width, height, imageData.buffer, forceOverride, this.pixelplace);
         break;
     
       default:
@@ -28,7 +28,7 @@ class Render {
     }
   }
 
-  public async drawRect(position: IVector2D, size: IVector2D, color: number, protect: boolean = false, mode: EDrawingMode = EDrawingMode.BASIC): Promise<IImageData> {
+  public async drawRect(position: IVector2D, size: IVector2D, color: number, protect: boolean = false, mode: EDrawingMode = EDrawingMode.BASIC, forceOverride: boolean = false): Promise<IImageData> {
     let buffer = getRect(position, size, color);
     let imageData = {
       buffer,
@@ -43,20 +43,20 @@ class Render {
     }
 
 
-    await this.draw(imageData, position, mode);
+    await this.draw(imageData, position, mode, forceOverride);
 
 
     return imageData;
   }
 
-  public async drawImage(position: IVector2D, imagePath: string, size: number, protect: boolean = false, mode: EDrawingMode = EDrawingMode.BASIC): Promise<IImageData> {
+  public async drawImage(position: IVector2D, imagePath: string, size: number, protect: boolean = false, mode: EDrawingMode = EDrawingMode.BASIC, forceOverride: boolean = false): Promise<IImageData> {
     let imageData = await convertAndGetImage(imagePath, size);
     
     if (protect) {
       this.pixelplace.RegisterProtectionZone(position.x, position.y, imageData);
     }
 
-    await this.draw(imageData, position, mode);
+    await this.draw(imageData, position, mode, forceOverride);
 
     return imageData;
   }
