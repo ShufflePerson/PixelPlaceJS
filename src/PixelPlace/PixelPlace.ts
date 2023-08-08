@@ -35,24 +35,24 @@ class PixelPlace {
 
   public RegisterProtectionZone(startX: number, startY: number, original: IImageData) {
     const { width, height } = original.metadata;
-
+    
     this.world.on(EPackets.PIXEL, (pixels: number[][]) => {
       for (let pixel of pixels) {
         let [x, y, color] = pixel;
         if (isInsidePoint({ x: startX, y: startY }, { x: width, y: height }, { x, y })) {
           let originalPixel = unpackPixel(original.buffer, ((y - startY) * width + (x - startX)) * 4);
-          this.placePixel(x, y, originalPixel[2]);
+          this.placePixel(x, y, originalPixel[2], true);
         }
       }
     });
   }
 
-  public async placePixel(x: number, y: number, color: number): Promise<Boolean> {
+  public async placePixel(x: number, y: number, color: number, force: boolean = false): Promise<Boolean> {
     let pixelPlaced = false;
 
     while (!pixelPlaced) {
       for (let bot of this.bots) {
-        pixelPlaced = bot.placePixel(x, y, color);
+        pixelPlaced = bot.placePixel(x, y, color, force);
         if (pixelPlaced) break;
       }
 
