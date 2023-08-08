@@ -11,18 +11,15 @@ export async function writeImageData(imageBuffer: Buffer, world: World): Promise
 
   for (let pixelIndex = 0; pixelIndex < pixelCount; pixelIndex += channels) {
     const alpha = data[pixelIndex + 3];
+    const x = (pixelIndex / channels) % width;
+    const y = Math.floor(pixelIndex / channels / width);
 
-    if (alpha > 0.6) {
-      const x = (pixelIndex / channels) % width;
-      const y = Math.floor(pixelIndex / channels / width);
-
-      const pixelB = world.getPixel(x, y);
-      if (pixelB[0] == 0 && pixelB[1] == 0 && pixelB[2] == 0) {
-        const r = data[pixelIndex];
-        const g = data[pixelIndex + 1];
-        const b = data[pixelIndex + 2];
-        world.writePixel(x, y, getPxPColor(r, g, b));
-      }
+    const pixelB = world.getPixel(x, y);
+    if (pixelB[0] == 0 && pixelB[1] == 0 && pixelB[2] == 0) {
+      const r = data[pixelIndex];
+      const g = data[pixelIndex + 1];
+      const b = data[pixelIndex + 2];
+      world.writePixel(x, y, getPxPColor(r, g, b));
     }
   }
 }
