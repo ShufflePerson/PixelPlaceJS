@@ -1,4 +1,4 @@
-import Axios, { AxiosInstance, AxiosError, AxiosRequestConfig } from "axios";
+import Axios, { AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import IError from "../../Types/Auth/IError";
 import ISessionData from "../../Types/PixelPlace/ISessionData";
 import getUA from "./Utils/getUA";
@@ -24,7 +24,7 @@ class Auth {
   public getHeaders(): any {
     let cookie: string = "";
 
-    if (this.sessionData) cookie = `authId=${this.sessionData.authId};authKey=${this.sessionData.authKey};authToken=${this.sessionData.authToken};`;
+    if (this.sessionData) cookie += `authId=${this.sessionData.authId};authKey=${this.sessionData.authKey};authToken=${this.sessionData.authToken};`;
 
     return {
       Origin: "https://pixelplace.io/",
@@ -32,6 +32,10 @@ class Auth {
       Cookie: cookie,
       "User-Agent": this.userAgent
     };
+  }
+  
+  public async performPing(): Promise<void> {
+    await this.axios.get("https://pixelplace.io/api/ping.php", this.getAxiosConfig());
   }
 
   private getAxiosConfig(): AxiosRequestConfig {
@@ -69,9 +73,21 @@ class Auth {
     winston.log("info", "Set username", "Auth", username);
   }
 
+  public async getPaintingData(): Promise<AxiosResponse> {
+      return await this.axios.get("https://pixelplace.io/api/get-painting.php?id=7&connected=1", this.getAxiosConfig())
+  }
+  
+
   public async Login(): Promise<ISessionData | IError> {
     try {
-      if (this.sessionData != null || (this.attemptLoadCache() && this.sessionData)) return this.sessionData;
+      if (this.sessionData != null || (this.attemptLoadCache() && this.sessionData)) {
+        let paintingRes = await this.getPaintingData();
+        let possibleNewData = parseSessionData(paintingRes);
+        if (possibleNewData.authId != "") {
+          this.sessionData = possibleNewData;
+        }
+        return this.sessionData;
+      };
       let res = await this.axios.post(Config.LOGIN_URL, `email=${this.loginData?.email}&password=${this.loginData?.email}`, this.getAxiosConfig());
 
       if (JSON.stringify(res.data) == "[]") {
