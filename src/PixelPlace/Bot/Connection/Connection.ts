@@ -54,7 +54,7 @@ class Connection {
 
         setTimeout(() => {
           isReady = true;
-        }, 500);
+        }, 3500);
 
         setInterval(() => {
           this.ws?.send("3");
