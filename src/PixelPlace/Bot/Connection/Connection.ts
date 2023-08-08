@@ -104,9 +104,6 @@ class Connection {
   }
 
   public emit(identifier: EPackets, data: any) {
-    if (identifier == EPackets.POALIVE) {
-      console.log(data);
-    }
     this.ws?.send(getEmitMessage(identifier, data));
   }
 
