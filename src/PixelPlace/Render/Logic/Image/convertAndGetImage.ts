@@ -7,8 +7,8 @@ import unpackPixel from "../../../World/Utils/unPackPixel";
 import IImageData from "../../Types/IImageData";
 import PixelPlace from "../../../PixelPlace";
 
-export async function convertAndGetImage(position: IVector2D, imagePath: string, size: number, protect: boolean, pixelplace: PixelPlace): Promise<IImageData> {
-  const imageInfo = await sharp(imagePath).raw().toBuffer({ resolveWithObject: true });
+export async function convertAndGetImage(imagePath: string, size: number): Promise<IImageData> {
+  const imageInfo = await sharp(imagePath).resize(size).raw().toBuffer({ resolveWithObject: true });
 
   const { data, info } = imageInfo;
   const { channels, width, height } = info;
@@ -18,7 +18,6 @@ export async function convertAndGetImage(position: IVector2D, imagePath: string,
 
 
   for (let pixelIndex = 0; pixelIndex < pixelCount; pixelIndex += channels) {
-    const alpha = data[pixelIndex + 3];
     const x = (pixelIndex / channels) % width;
     const y = Math.floor(pixelIndex / channels / width);
     const r = data[pixelIndex];
