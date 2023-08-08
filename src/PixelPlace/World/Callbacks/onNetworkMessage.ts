@@ -21,6 +21,10 @@ function onNetworkMessage(world: World, rawMessage: string) {
 
   switch (parsed.identifier) {
     case EPackets.PIXEL: //number[][]
+      if(callbackFunction) {
+        callbackFunction(parsed.data);
+        callbackFunction = undefined;
+      }
       world.syncPixels(parsed.data);
       break;
     case EPackets.JOIN: // String
