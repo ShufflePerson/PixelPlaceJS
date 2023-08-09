@@ -131,7 +131,7 @@ class PixelPlace {
         this.toProtect.splice(i, 1);
         this.placePixel(x, y, color, true);
       }
-    }, 20);
+    }, 10);
 
     winston.log("info", "Bots are ready.", "PixelPlace", this.bots.length);
   }
