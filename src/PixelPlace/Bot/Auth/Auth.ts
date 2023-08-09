@@ -81,11 +81,13 @@ class Auth {
   public async Login(): Promise<ISessionData | IError> {
     try {
       if (this.sessionData != null || (this.attemptLoadCache() && this.sessionData)) {
+        /*
         let paintingRes = await this.getPaintingData();
         let possibleNewData = parseSessionData(paintingRes);
         if (possibleNewData.authId != "") {
           this.sessionData = possibleNewData;
         }
+        */
         return this.sessionData;
       };
       let res = await this.axios.post(Config.LOGIN_URL, `email=${this.loginData?.email}&password=${this.loginData?.email}`, this.getAxiosConfig());
