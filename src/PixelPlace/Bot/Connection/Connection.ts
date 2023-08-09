@@ -8,12 +8,14 @@ import parseIncomingMessage from "./Utils/parseIncomingMessage";
 import World from "../../World/World";
 import { getPalive } from "../../Helpers/getPAlive";
 import EWSErrorDescription from "../../Enums/Error/EWSErrorDescrption";
+import getTDelay from "../../Helpers/getTDelay";
 
 class Connection {
   private ws: WebSocket | null = null;
   public isWorking: boolean = true;
   private onMessageCallback: Function | null = null;
   private world: World | null = null;
+  private tDelay: number = 0;
 
   constructor(
     private auth: Auth,
@@ -88,7 +90,13 @@ class Connection {
     if (!parsed.data && !parsed.identifier) return;
 
     if (parsed.identifier == EPackets.PALIVE) {
-      this.emit(EPackets.POALIVE, getPalive());
+      this.emit(EPackets.POALIVE, getPalive(this.tDelay));
+    }
+
+    if (parsed.identifier == EPackets.SERVER_TIME) {
+      let serverTime: number = parseInt(parsed.data);
+      let tDelay = getTDelay(serverTime);
+      this.tDelay = tDelay;
     }
 
     if (parsed.identifier == EPackets.ERROR) {
