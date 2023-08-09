@@ -7,8 +7,11 @@ import unpackPixel from "../../../World/Utils/unPackPixel";
 import IImageData from "../../Types/IImageData";
 import PixelPlace from "../../../PixelPlace";
 
-export async function convertAndGetImage(imagePath: string, size: number): Promise<IImageData> {
-  const imageInfo = await sharp(imagePath).resize(size).raw().toBuffer({ resolveWithObject: true });
+export async function convertAndGetImage(imagePath: string, size: number = 0): Promise<IImageData> {
+  let imageSharp = sharp(imagePath, {});
+  if (size != 0)
+    imageSharp = imageSharp.resize(size);
+  const imageInfo = await imageSharp.raw().toBuffer({ resolveWithObject: true });
 
   const { data, info } = imageInfo;
   const { channels, width, height } = info;
@@ -20,6 +23,7 @@ export async function convertAndGetImage(imagePath: string, size: number): Promi
   for (let pixelIndex = 0; pixelIndex < pixelCount; pixelIndex += channels) {
     const x = (pixelIndex / channels) % width;
     const y = Math.floor(pixelIndex / channels / width);
+
     const r = data[pixelIndex];
     const g = data[pixelIndex + 1];
     const b = data[pixelIndex + 2];
