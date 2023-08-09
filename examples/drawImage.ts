@@ -27,30 +27,31 @@ function loadAuths(): Auth[] {
 function saveNewTokens(auths: Auth[]) {
     let cache: Array<any> = [];
     for (let auth of auths) {
-        if (auth.didTokensRotate) {
-            cache.push(auth.getSessionData());
-        }
+        cache.push(auth.getSessionData());
     }
 
     fs.writeFileSync("./cache.json", JSON.stringify(cache));
 }
 
+let protectId: number = 0;
+let [x, y] = [1286, 1823];
+let accounts = loadAuths();
+let world = new World(7, accounts[0]);
+let pixelplace = new PixelPlace(accounts, world, 7);
+
+
+async function draw() {
+    pixelplace.removeProtection(protectId)
+    protectId = await pixelplace.render.drawImage({x, y}, "test.png", 0, true);
+    setTimeout(draw, 5 * 60000);
+}
+
 async function main() {
-
-    let accounts = loadAuths();
-
-    let world = new World(7, accounts[0]);
-    let pixelplace = new PixelPlace(accounts, world, 7);
-
     await world.Init();
     await pixelplace.Init();
-
     saveNewTokens(accounts);
-
-    let [x, y] = [1286, 1823];
-    
-    await pixelplace.render.drawImage({x, y}, "test.png", 0, true);
-    //await pixelplace.render.drawRect({x, y}, {x: 100, y: 100}, Math.round(Math.random() * 32), false);
+    protectId = await pixelplace.render.drawImage({x, y}, "test.png", 0, true);
+    draw();
 }
 
 main();
