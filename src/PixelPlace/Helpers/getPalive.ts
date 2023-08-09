@@ -10,7 +10,6 @@ let cipherObj: any = {
     8: "i",
     9: "a"
 }
-let O = "8"; //One of the first 6 digits of your userId. Random.
 function randomNumber(Gk: number, Gw: number) {
     return ((Math.floor(Math.random() * (Gw - Gk + 1))) + Gk);
 }
@@ -58,9 +57,9 @@ function randomStr2(numbr: number) {
 }
 
 
-export function getPalive() {
+export function getPalive(tDelay: number = 7, userIdDigit: number = 8) {
     let cipher = [6, 5, 9, 4, 5, 3, 6, 6, 3];
-    var currentTime = Math.round(((new Date).getTime() / 1e3)) + 7 /*GB.tDelay*/ - 540;
+    var currentTime = Math.round(((new Date).getTime() / 1e3)) + tDelay - 540;
     let currentTimeString = currentTime.toString();
     let currentTimeChars = currentTimeString.split("");
     let output = "";
@@ -72,7 +71,7 @@ export function getPalive() {
         output += suffix;
         i++;
     }
-    output += O + randomStr1(8);
+    output += userIdDigit + randomStr1(8);
     output = output + "0="
 
     return output;
