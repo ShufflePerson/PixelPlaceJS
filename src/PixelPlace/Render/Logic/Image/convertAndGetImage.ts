@@ -9,8 +9,7 @@ import PixelPlace from "../../../PixelPlace";
 
 export async function convertAndGetImage(imagePath: string, size: number = 0): Promise<IImageData> {
   let imageSharp = sharp(imagePath, {});
-  if (size != 0)
-    imageSharp = imageSharp.resize(size);
+  if (size != 0) imageSharp = imageSharp.resize(size);
   const imageInfo = await imageSharp.raw().toBuffer({ resolveWithObject: true });
 
   const { data, info } = imageInfo;
@@ -18,7 +17,6 @@ export async function convertAndGetImage(imagePath: string, size: number = 0): P
   const pixelCount = width * height * channels;
 
   let imageBuffer: Buffer = Buffer.alloc(pixelCount * 4);
-
 
   for (let pixelIndex = 0; pixelIndex < pixelCount; pixelIndex += channels) {
     const x = (pixelIndex / channels) % width;

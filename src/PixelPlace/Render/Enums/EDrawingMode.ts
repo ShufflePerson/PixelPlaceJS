@@ -1,5 +1,5 @@
 enum EDrawingMode {
-    BASIC
+  BASIC
 }
 
 export { EDrawingMode };

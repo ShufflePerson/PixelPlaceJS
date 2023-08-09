@@ -81,14 +81,11 @@ function onNetworkMessage(world: World, rawMessage: string) {
     for (let func of cbFunctions) {
       func(formattedData);
     }
-    
+
     if (parsed.identifier == EPackets.PIXEL) {
       world.syncPixels(parsed.data);
     }
-
   }
-
-
 }
 
 export { onNetworkMessage };

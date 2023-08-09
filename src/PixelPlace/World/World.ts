@@ -27,10 +27,7 @@ class World {
   public on(identifier: EPackets, callback: Function) {
     let currentCallbacks = this.registeredCallbacks.get(identifier);
     if (!currentCallbacks) currentCallbacks = [];
-    this.registeredCallbacks.set(identifier, [
-      ...currentCallbacks,
-      callback
-    ]);
+    this.registeredCallbacks.set(identifier, [...currentCallbacks, callback]);
   }
 
   public async Init() {

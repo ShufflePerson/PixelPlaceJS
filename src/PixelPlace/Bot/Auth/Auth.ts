@@ -12,7 +12,6 @@ import winston from "winston";
 import ILoginData from "./Types/ILoginData";
 
 class Auth {
-
   public didTokensRotate: boolean = false;
 
   constructor(
@@ -36,7 +35,7 @@ class Auth {
       "User-Agent": this.userAgent
     };
   }
-  
+
   public async performPing(): Promise<void> {
     await this.axios.get("https://pixelplace.io/api/ping.php", this.getAxiosConfig());
   }
@@ -77,9 +76,8 @@ class Auth {
   }
 
   public async getPaintingData(): Promise<AxiosResponse> {
-      return await this.axios.get("https://pixelplace.io/api/get-painting.php?id=7&connected=1", this.getAxiosConfig())
+    return await this.axios.get("https://pixelplace.io/api/get-painting.php?id=7&connected=1", this.getAxiosConfig());
   }
-  
 
   public async Login(): Promise<ISessionData | IError> {
     try {
@@ -92,7 +90,7 @@ class Auth {
           this.sessionData = possibleNewData;
         }
         return this.sessionData;
-      };
+      }
       let res = await this.axios.post(Config.LOGIN_URL, `email=${this.loginData?.email}&password=${this.loginData?.email}`, this.getAxiosConfig());
 
       if (JSON.stringify(res.data) == "[]") {

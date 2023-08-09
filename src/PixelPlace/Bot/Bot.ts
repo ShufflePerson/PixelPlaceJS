@@ -38,13 +38,15 @@ class Bot {
     let time = Date.now();
     let diff = time - this.lastPixelPlace;
     if (diff < 20) return false;
-    
-    if(!force)
-      if (this.world.getPixel(x, y)[2] == color) return true;
+
+    if (!force) {
+      if (this.world.getPixel(x, y)[2] == color) {
+        return true;
+      }
+    }
 
     this.lastPixelPlace = time;
     this.connection.sendPlacePixel(x, y, color);
-
     return true;
   }
 }

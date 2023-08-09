@@ -42,10 +42,10 @@ class Connection {
 
       this.ws.on("open", async () => {
         winston.log("info", "WebSocket Connection opened.", "Connection");
-        
+
         this.ws?.send("40");
         this.ws?.send("3");
-        
+
         await sleep(200);
 
         if (this.auth.getSessionData() != null)
@@ -54,7 +54,6 @@ class Connection {
             boardId: this.boardId
           });
         else this.emit(EPackets.INIT, { authId: "", boardId: this.boardId });
-        
 
         setTimeout(() => {
           isReady = true;
@@ -67,9 +66,6 @@ class Connection {
 
       this.ws.on("close", async () => {
         winston.log("error", "WebSocket connection closed. Trying to reconnect", "Connection");
-        //await this.Init();
-        //if (this.onMessageCallback && this.world)
-         // this.registerOnMessage(this.onMessageCallback, this.world);
       });
 
       while (!isReady) {
@@ -86,7 +82,7 @@ class Connection {
   private async onNetworkMessage(rawMessage: string) {
     rawMessage = rawMessage.toString();
     let parsed = parseIncomingMessage(rawMessage);
-    
+
     if (!parsed.data && !parsed.identifier) return;
 
     if (parsed.identifier == EPackets.PALIVE) {
