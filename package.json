@@ -1,14 +1,14 @@
 {
   "name": "pixelplacejs",
   "description": "PixelPlace library that supports all packet types of PixelPlace. Supports multi-botting along side listening for any server event. ",
-  "version": "1.1.27",
+  "version": "1.1.29",
   "main": "src/index.js",
   "scripts": {
     "compile": "tsc",
     "dev": "nodemon src/index.ts",
     "run-dev": "npm run prettier-format && ts-node src/index.ts",
     "prettier-format": "prettier --config .prettierrc ./src/**/*.ts --write",
-    "pub": "tsc && npm version patch --force && npm publish"
+    "pub": "tsc && npm version patch --force && npm publish && cd src && del /S *.js && cd .."
   },
   "dependencies": {
     "@types/random-useragent": "^0.3.1",
