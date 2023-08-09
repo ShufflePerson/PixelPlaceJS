@@ -38,7 +38,7 @@ class PixelPlace {
     this.render = new Render(this);
   }
 
-  public registerProtectionZone(startX: number, startY: number, original: IImageData) {
+  public RegisterProtectionZone(startX: number, startY: number, original: IImageData) {
     this.protectedZones.push({
       position: {
         x: startX,
@@ -48,7 +48,6 @@ class PixelPlace {
     })
   
   }
-
   
 
   public async placePixel(x: number, y: number, color: number, force: boolean = false): Promise<Boolean> {
@@ -67,7 +66,7 @@ class PixelPlace {
 
   }
 
-  public async Init(): Promise<void> {
+  public async Init() {
     for (let bot of this.bots) {
       let succesful = await bot.Init();
       if (!succesful) {
