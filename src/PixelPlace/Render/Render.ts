@@ -39,7 +39,7 @@ class Render {
     }
 
     if (protect) {
-      this.pixelplace.RegisterProtectionZone(position.x, position.y, imageData);
+      this.pixelplace.registerProtectionZone(position.x, position.y, imageData);
     }
 
 
@@ -53,7 +53,7 @@ class Render {
     let imageData = await convertAndGetImage(imagePath, size);
     
     if (protect) {
-      this.pixelplace.RegisterProtectionZone(position.x, position.y, imageData);
+      this.pixelplace.registerProtectionZone(position.x, position.y, imageData);
     }
 
     await this.draw(imageData, position, mode, forceOverride);
