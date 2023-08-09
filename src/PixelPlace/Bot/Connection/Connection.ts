@@ -12,6 +12,8 @@ import EWSErrorDescription from "../../Enums/Error/EWSErrorDescrption";
 class Connection {
   private ws: WebSocket | null = null;
   public isWorking: boolean = true;
+  private onMessageCallback: Function | null = null;
+  private world: World | null = null;
 
   constructor(
     private auth: Auth,
@@ -61,8 +63,11 @@ class Connection {
         }, 4500);
       });
 
-      this.ws.on("close", () => {
-        winston.log("error", "WebSocket connection closed", "Connection");
+      this.ws.on("close", async () => {
+        winston.log("error", "WebSocket connection closed. Trying to reconnect", "Connection");
+        await this.Init();
+        if (this.onMessageCallback && this.world)
+          this.registerOnMessage(this.onMessageCallback, this.world);
       });
 
       while (!isReady) {
@@ -108,9 +113,11 @@ class Connection {
     }
   }
 
-  public registerOnMessage(func: any, that: World) {
+  public registerOnMessage(func: any, world: World) {
     this.ws?.on("message", (message: string) => {
-      func(that, message);
+      this.onMessageCallback = func;
+      this.world = world;
+      func(world, message);
     });
   }
 
