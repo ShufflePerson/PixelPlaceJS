@@ -61,7 +61,7 @@ class PixelPlace {
             return;
           }
         }
-      }, 5)
+      }, 1)
     })
 
   }
@@ -89,7 +89,7 @@ class PixelPlace {
 
         for (let pixel of pixels) {
           let [x, y, color] = pixel;
-          if (isInsidePoint({ x: startX, y: startY }, { x: width, y: height }, { x, y })) {
+          if (isInsidePoint({ x: startX, y: startY }, { x: width - 1, y: height - 1 }, { x, y })) {
             let originalPixel = unpackPixel(protectedZone.imageData.buffer, ((y - startY) * width + (x - startX)) * 4);
             if (color != originalPixel[2])
               this.placePixel(x, y, originalPixel[2], true);
