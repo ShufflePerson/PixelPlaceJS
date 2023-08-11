@@ -1,6 +1,9 @@
 # PixelPlaceJS
 Fully documented and strongly typed nodejs libary for PixelPlace.io
 
+## NPM
+You can find the NPM package [HERE](npmjs.com/package/pixelplacejs)
+
 ## Examples and Docs
 
 Examples and Docs are on [GitBook](https://pixelplacejs.gitbook.io/pixelplacejs/)
