@@ -50,7 +50,7 @@ function randomStr2(numbr: number) {
   return output.join("");
 }
 
-export function getPalive(tDelay: number = 7, userIdDigit: number = 8) {
+export function getPalive(tDelay: number = 7, userIdDigit: number = 2) {
   let cipher = [6, 5, 9, 4, 5, 3, 6, 6, 3];
   var currentTime = Math.round(new Date().getTime() / 1e3) + tDelay - 540;
   let currentTimeString = currentTime.toString();
