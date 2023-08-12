@@ -1,15 +1,11 @@
 import winston from "winston";
-import Bot from "../Bot/Bot";
 import PixelPlace from "../PixelPlace";
-import unpackPixel from "../World/Utils/unPackPixel";
 import { EDrawingMode } from "./Enums/EDrawingMode";
 import { convertAndGetImage } from "./Logic/Image/convertAndGetImage";
 import drawBasic from "./Logic/Methods/drawBasic";
 import getRect from "./Logic/Rect/getRect";
 import IImageData from "./Types/IImageData";
 import IVector2D from "./Types/IVector2D";
-import packPixel from "../World/Utils/packPixel";
-import getPackedPixel from "../World/Utils/getPackedPixel";
 
 class Render {
   constructor(private pixelplace: PixelPlace) {}
@@ -68,7 +64,6 @@ class Render {
     if (protect) {
       protectId = this.pixelplace.registerProtectionZone(position.x, position.y, imageData);
     }
-
     await this.draw(imageData, position, mode, forceOverride);
 
     return protectId;
