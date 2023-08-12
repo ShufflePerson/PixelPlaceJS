@@ -33,21 +33,20 @@ class Bot {
     return this.auth.getEmail();
   }
 
-  //todo: return the amount needed to wait
-  public placePixel(x: number, y: number, color: number, force: boolean = false): boolean {
+  public placePixel(x: number, y: number, color: number, force: boolean = false): number {
     let time = Date.now();
     let diff = time - this.lastPixelPlace;
-    if (diff < 20) return false;
+    if (diff < 25) return diff;
 
     if (!force) {
       if (this.world.getPixel(x, y)[2] == color) {
-        return true;
+        return -2;
       }
     }
 
     this.lastPixelPlace = time;
     this.connection.sendPlacePixel(x, y, color);
-    return true;
+    return -1;
   }
 }
 
