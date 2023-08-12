@@ -9,6 +9,7 @@ import World from "../../World/World";
 import { getPalive } from "../../Helpers/getPAlive";
 import EWSErrorDescription from "../../Enums/Error/EWSErrorDescrption";
 import getTDelay from "../../Helpers/getTDelay";
+import getWorldLogger from "../../../Logging/World/getWorldLogger";
 
 class Connection {
   private ws: WebSocket | null = null;
@@ -26,6 +27,7 @@ class Connection {
   public async Init(): Promise<boolean> {
     try {
       winston.log("info", "Starting WebSocket Connection", "Connection");
+      this.auth.setUA();
       this.ws = new WebSocket("wss://pixelplace.io/socket.io/?EIO=4&transport=websocket", {
         headers: {
           ...this.auth.getHeaders(),
@@ -46,7 +48,7 @@ class Connection {
         this.ws?.send("40");
         this.ws?.send("3");
 
-        await sleep(200);
+        await sleep(700);
 
         if (this.auth.getSessionData() != null)
           this.emit(EPackets.INIT, {
@@ -57,19 +59,21 @@ class Connection {
 
         setTimeout(() => {
           isReady = true;
-        }, 500);
+        }, 900);
 
         setInterval(() => {
           this.ws?.send("3");
-        }, 4500);
+        }, 20000);
       });
 
       this.ws.on("close", async () => {
-        winston.log("error", "WebSocket connection closed. Trying to reconnect", "Connection");
+        winston.log("error", "WebSocket connection closed. Retrying connection.", "Connection");
+        await sleep(2500);
+        this.Init();
       });
 
       while (!isReady) {
-        await sleep(20);
+        await sleep(100);
         await new Promise((resolve) => setImmediate(resolve));
       }
 
@@ -105,8 +109,7 @@ class Connection {
           break;
 
         default:
-          winston.log("error", "Error occured, most likely invalid token data.", "Connection", errorId, EWSErrorDescription[errorId], this.auth.getEmail());
-          this.isWorking = false;
+          winston.log("error", "Error occured.", "Connection", errorId, EWSErrorDescription[errorId], this.auth.getEmail());
           break;
       }
     }
@@ -117,7 +120,7 @@ class Connection {
     }
   }
 
-  public registerOnMessage(func: any, world: World) {
+  public registerOnMessage(func: any, world: World | null = null) {
     this.ws?.on("message", (message: string) => {
       this.onMessageCallback = func;
       this.world = world;
@@ -126,6 +129,9 @@ class Connection {
   }
 
   public emit(identifier: EPackets, data: any) {
+    if (identifier != EPackets.PIXEL) {
+      getWorldLogger().log("debug", "emit", identifier, data);
+    }
     this.ws?.send(getEmitMessage(identifier, data));
   }
 
@@ -134,6 +140,7 @@ class Connection {
     console.log(error);
   }
 
+  private lastPixelPlacement = 0;
   public sendPlacePixel(x: number, y: number, color: number) {
     this.emit(EPackets.PIXEL, [x, y, color, 1]);
   }
