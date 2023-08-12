@@ -2,7 +2,9 @@ function parseIncomingMessage(rawString: string): {
   identifier: string;
   data: any;
 } {
-  if (!rawString.startsWith("42")) return { identifier: "", data: "" };
+  if (!rawString.startsWith("42")) {
+    return { identifier: "", data: "" };
+  }
   try {
     const jsonStartIndex = rawString.indexOf("[");
     const jsonString = rawString.slice(jsonStartIndex);
