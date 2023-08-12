@@ -6,8 +6,6 @@ import writeImageData from "../Helpers/Render/writeImageData";
 import { onNetworkMessage } from "./Callbacks/onNetworkMessage";
 import fetchCanvasPNG from "./Utils/fetchCanvasPNG";
 import EPackets from "../Enums/EPackets";
-import ISessionData from "../Types/PixelPlace/ISessionData";
-import ILoginData from "../Bot/Auth/Types/ILoginData";
 
 class World {
   private connection: Connection;
@@ -15,6 +13,7 @@ class World {
   private canvasHeight: number = 3000;
   private canvas: Buffer;
   public registeredCallbacks: Map<EPackets, Array<Function>> = new Map<EPackets, Array<Function>>();
+  private lastTick = Number.MAX_SAFE_INTEGER;
 
   constructor(
     private boardId: number,
@@ -41,6 +40,7 @@ class World {
   }
 
   public syncPixels(pixels: number[][]) {
+    this.lastTick = Date.now();
     for (let pixel of pixels) {
       this.writePixel(pixel[0], pixel[1], pixel[2]);
     }
