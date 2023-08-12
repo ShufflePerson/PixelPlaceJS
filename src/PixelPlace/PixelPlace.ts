@@ -9,23 +9,21 @@ import isInsidePoint from "./Helpers/Math/isInsidePoint";
 import unpackPixel from "./World/Utils/unPackPixel";
 import IVector2D from "./Render/Types/IVector2D";
 import sleep from "../Utils/sleep";
-
-const eventLoopQueue = () => {
-  return new Promise((resolve, reject) => 
-    setImmediate(() => {
-      resolve(null);
-    })
-  );
-}
+import PixelJob from "./PixelJob/PixelJob";
+import EPixelJobPriority from "./PixelJob/Enums/EPixelJobPriority";
+import eventLoopQueue from "./Helpers/eventLoopQueue";
+import placePixel from "./PixelJob/Utils/placePixel";
 
 class PixelPlace {
   public bots: Bot[] = [];
   public render: Render;
   private toProtect: number[][] = [];
+  private toPlace: number[][] = [];
   private protectedZones: Array<{
     position: IVector2D;
     imageData: IImageData;
   }> = [];
+  private pixelJobs = new Map<number, PixelJob>();
 
   constructor(
     private auths: Auth[],
@@ -75,20 +73,19 @@ class PixelPlace {
     }
   }
 
-  public async placePixel(x: number, y: number, color: number, force: boolean = false): Promise<Boolean> {
-    return new Promise(async (resolve, reject) => {
-      let placed = false;
-      while (!placed) {
-        for (let bot of this.bots) {
-          placed = bot.placePixel(x, y, color, force);
-          if (placed) {
-            resolve(true);
-            break;
-          }
-        }
-        await eventLoopQueue();
-      }
-    });
+  public createPixelJob(buffer: Buffer, position: IVector2D, size: IVector2D, priority: EPixelJobPriority = EPixelJobPriority.LOW): number {
+    let id = Math.round(Math.random() * 99999);
+    this.pixelJobs.set(id, new PixelJob(buffer, position, size, priority, this.bots));
+
+    return id;
+  }
+
+  public startPixelJob(id: number) {
+    this.pixelJobs.get(id)?.startJob();
+  }
+
+  public waitForPixelJobFinish(id: number) {
+    return this.pixelJobs.get(id)?.waitForFinish();
   }
 
   public async Init(): Promise<void> {
@@ -124,14 +121,30 @@ class PixelPlace {
       }
     });
 
+    let inProgress = false;
+
     setInterval(async () => {
-      for (let i = 0; i < this.toProtect.length; i++) {
-        let pixel = this.toProtect[i];
-        let [x, y, color] = pixel;
-        this.toProtect.splice(i, 1);
-        this.placePixel(x, y, color, true);
+      if (inProgress) return;
+      inProgress = true;
+      for (let jobArr of this.pixelJobs) {
+        let [id, job] = jobArr;
+        await job.waitForFinish();
       }
-    }, 10);
+
+      let originalLength = this.toProtect.length;
+      let toPlace = [...new Set(this.toProtect.slice())];
+
+      for (let i = 0; i < toPlace.length; i++) {
+        let pixel = toPlace[i];
+        if (!(await placePixel(pixel[0], pixel[1], pixel[2], this.bots, true))) {
+          i = i - 1;
+        }
+      }
+
+      this.toProtect.splice(originalLength - 1, 1);
+
+      inProgress = false;
+    }, 5);
 
     winston.log("info", "Bots are ready.", "PixelPlace", this.bots.length);
   }
