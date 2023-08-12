@@ -8,6 +8,7 @@ enum EPackets {
   NEW_CHAT_MESSAGE = "chat.user.message",
   DELETE_CHAT_MESSAGE = "chat.system.delete",
   CHAT_LOADED = "chat.messages.loaded",
+  CHAT_SEND_MESSAGE = "chat.message",
   CANVAS = "canvas",
   CHAT_STATS = "chat.stats",
   RATE_CHANGE = "rate_change",
@@ -42,7 +43,8 @@ enum EPackets {
   CHAT_MESSAGES_LOADED = "chat.messages.loaded",
   CHAT_COMMAND = "chat.command",
   AREAS = "areas",
-  SERVER_TIME = "server_time"
+  SERVER_TIME = "server_time",
+  USERNAME = "username"
 }
 
 export default EPackets;
