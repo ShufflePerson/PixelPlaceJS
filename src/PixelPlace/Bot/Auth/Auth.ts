@@ -21,6 +21,10 @@ class Auth {
     private axios: AxiosInstance = Axios.create({})
   ) {
     this.axios.defaults.headers = this.getHeaders() as any;
+
+    setInterval(() => {
+      this.performPing();
+    }, 250000);
   }
 
   public getHeaders(): any {
@@ -34,6 +38,10 @@ class Auth {
       Cookie: cookie,
       "User-Agent": this.userAgent
     };
+  }
+
+  public setUA(UA: string = getUA()) {
+    this.userAgent = UA;
   }
 
   public async performPing(): Promise<void> {
