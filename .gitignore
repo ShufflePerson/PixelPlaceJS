@@ -128,6 +128,8 @@ dist
 
 src/**/*.js
 src/**/*.d.ts
+examples/*.js
+examples/*.d.ts
 
 
 data
