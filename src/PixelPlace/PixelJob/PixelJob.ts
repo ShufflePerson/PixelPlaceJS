@@ -9,6 +9,8 @@ import placePixel from "./Utils/placePixel";
 class PixelJob {
   private progress: number = 0;
   private isPaused: boolean = false;
+  private isStopped: boolean = false;
+
 
   constructor(
     private buffer: Buffer,
@@ -20,9 +22,12 @@ class PixelJob {
 
   public startJob(): Promise<void> {
     return new Promise(async (resolve, reject) => {
+      this.unPauseJob();
       resolve();
       for (let y = 0; y < this.size.y; y++) {
+        if (this.isStopped) break;
         for (let x = 0; x < this.size.x; x++) {
+          if (this.isStopped) break;
           if (this.isPaused) {
             x = x - 1;
             continue;
@@ -34,15 +39,14 @@ class PixelJob {
 
           let wasSuccesful = await placePixel(realX, realY, color, this.bots);
           if (!wasSuccesful) x = x - 1;
-          else {
-            this.progress++;
-          }
+          else               this.progress++;
         }
       }
     });
   }
 
   public pauseJob() {
+    this.isStopped = false;
     this.isPaused = true;
   }
 
