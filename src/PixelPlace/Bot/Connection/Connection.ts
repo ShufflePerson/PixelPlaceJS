@@ -140,6 +140,10 @@ class Connection {
     console.log(error);
   }
 
+  public send(data: string) {
+    this.ws?.send(data)
+  }
+
   private lastPixelPlacement = 0;
   public sendPlacePixel(x: number, y: number, color: number) {
     this.emit(EPackets.PIXEL, [x, y, color, 1]);
