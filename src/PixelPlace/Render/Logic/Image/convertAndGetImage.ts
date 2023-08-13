@@ -27,8 +27,10 @@ export async function convertAndGetImage(imagePath: string, size: number = 0): P
     const g = data[pixelIndex + 1];
     const b = data[pixelIndex + 2];
     const alpha = data[pixelIndex + 3];
+    let pxpColor = 63;
 
-    let pxpColor = getPxPColor(r, g, b);
+    if (alpha >= 0.5)
+      pxpColor = getPxPColor(r, g, b)
     packPixel(imageBuffer, (y * width + x) * 4, x, y, pxpColor);
   }
 
