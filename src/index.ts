@@ -9,6 +9,7 @@ import Utils from "./Utils";
 import Auth from "./PixelPlace/Bot/Auth/Auth";
 import Bot from "./PixelPlace/Bot/Bot";
 import { EDrawingMode } from "./PixelPlace/Render/Enums/EDrawingMode";
+import { convertAndGetImage } from "./PixelPlace/Render/Logic/Image/convertAndGetImage";
 
 export { World };
 export { PixelPlace };
@@ -18,5 +19,6 @@ export { Utils };
 export { Auth };
 export { EDrawingMode };
 export { Bot };
+export { convertAndGetImage }
 
 initLogger();
