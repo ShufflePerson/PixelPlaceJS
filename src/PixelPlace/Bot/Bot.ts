@@ -38,6 +38,9 @@ class Bot {
     let diff = time - this.lastPixelPlace;
     if (diff < 25) return diff;
 
+    if (color == 63)
+      return -2;
+
     if (!force) {
       if (this.world.getPixel(x, y)[2] == color) {
         return -2;
