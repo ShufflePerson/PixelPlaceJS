@@ -79,6 +79,11 @@ class PixelPlace {
 
     return id;
   }
+  
+  public removePixelJob(id: number) {
+    this.pixelJobs.get(id)?.pauseJob();
+    this.pixelJobs.delete(id);
+  }
 
   public startPixelJob(id: number) {
     this.pixelJobs.get(id)?.startJob();
@@ -86,6 +91,14 @@ class PixelPlace {
 
   public waitForPixelJobFinish(id: number) {
     return this.pixelJobs.get(id)?.waitForFinish();
+  }
+  
+  public async placePixel(x: number, y: number, c: number, force: boolean = false): Promise<void> {
+    let placed = false;
+    while (!placed) {
+      placed = await placePixel(x, y, c, this.bots, force);
+      await eventLoopQueue();
+    }
   }
 
   public async Init(): Promise<void> {
@@ -113,7 +126,7 @@ class PixelPlace {
           let [x, y, color] = pixel;
           if (isInsidePoint({ x: startX, y: startY }, { x: width - 1, y: height - 1 }, { x, y })) {
             let originalPixel = unpackPixel(protectedZone.imageData.buffer, ((y - startY) * width + (x - startX)) * 4);
-            if (color != originalPixel[2]) {
+            if (color != originalPixel[2] && originalPixel[2] != 63) {
               this.toProtect.push([x, y, originalPixel[2]]);
             }
           }
@@ -136,12 +149,11 @@ class PixelPlace {
 
       for (let i = 0; i < toPlace.length; i++) {
         let pixel = toPlace[i];
-        if (!(await placePixel(pixel[0], pixel[1], pixel[2], this.bots, true))) {
-          i = i - 1;
-        }
+        await this.placePixel(pixel[0], pixel[1], pixel[2], true);
       }
-
-      this.toProtect.splice(originalLength - 1, 1);
+      
+      
+      this.toProtect.splice(0, originalLength);
 
       inProgress = false;
     }, 5);
