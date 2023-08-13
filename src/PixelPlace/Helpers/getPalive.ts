@@ -1,15 +1,15 @@
 let cipherObj: any = {
-  0: "g",
-  1: "n",
-  2: "b",
-  3: "r",
-  4: "z",
-  5: "s",
-  6: "l",
-  7: "x",
-  8: "i",
-  9: "a"
-};
+    "0": "g",
+    "1": "n",
+    "2": "b",
+    "3": "r",
+    "4": "z",
+    "5": "s",
+    "6": "l",
+    "7": "x",
+    "8": "i",
+    "9": "a"
+}
 function randomNumber(Gk: number, Gw: number) {
   return Math.floor(Math.random() * (Gw - Gk + 1)) + Gk;
 }
@@ -40,18 +40,8 @@ function randomStr1(numbr: number) {
   }
 }
 
-function randomStr2(numbr: number) {
-  var output = [];
-  let strOfCharacters = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  let charLen = strOfCharacters.length; //62
-  for (var GC = 0; GC < numbr; GC++) {
-    output.push(strOfCharacters.charAt(Math.floor(Math.random() * charLen)));
-  }
-  return output.join("");
-}
-
-export function getPalive(tDelay: number = 7, userIdDigit: number = 2) {
-  let cipher = [6, 5, 9, 4, 5, 3, 6, 6, 3];
+export function getPalive(tDelay: number = 7, userIdDigit: number = 3) {
+  let cipher = [6, 5, 9, 4, 5, 3, 6, 6, 3];
   var currentTime = Math.round(new Date().getTime() / 1e3) + tDelay - 540;
   let currentTimeString = currentTime.toString();
   let currentTimeChars = currentTimeString.split("");
