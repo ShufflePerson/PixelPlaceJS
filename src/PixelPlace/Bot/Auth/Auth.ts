@@ -89,7 +89,8 @@ class Auth {
 
   public async Login(): Promise<ISessionData | IError> {
     try {
-      if (this.sessionData != null || (this.attemptLoadCache() && this.sessionData)) {
+      if (this.sessionData != null) return this.sessionData;
+      if ((this.attemptLoadCache() && this.sessionData)) {
         let paintingRes = await this.getPaintingData();
         let possibleNewData = parseSessionData(paintingRes);
 
