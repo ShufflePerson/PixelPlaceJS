@@ -3,7 +3,7 @@ import getPxPColor from "../../../Helpers/Render/getPxPColor";
 import Bot from "../../../Bot/Bot";
 import IVector2D from "../../Types/IVector2D";
 import packPixel from "../../../World/Utils/packPixel";
-import unpackPixel from "../../../World/Utils/unPackPixel";
+import unpackPixel from "../../../World/Utils/unpackPixel";
 import IImageData from "../../Types/IImageData";
 import PixelPlace from "../../../PixelPlace";
 

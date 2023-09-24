@@ -1,66 +1,90 @@
-let cipherObj: any = {
-    "0": "g",
-    "1": "n",
-    "2": "b",
-    "3": "r",
-    "4": "z",
-    "5": "s",
-    "6": "l",
-    "7": "x",
-    "8": "i",
-    "9": "a"
-}
-function randomNumber(Gk: number, Gw: number) {
-  return Math.floor(Math.random() * (Gw - Gk + 1)) + Gk;
+function getCurrentTimeInSeconds(): number {
+  return Math.floor(new Date().getTime() / 1000);
 }
 
-function randomStr1(numbr: number) {
-  var GK: any = ["4", "1", "2", "3", "0"];
-  let Gw = 0;
-  while (true) {
-    switch (GK[Gw++]) {
-      case "0":
-        return GW.join("");
-      case "1":
-        var Gz: any = "gggggggggggggggggggggggggggggggggggggggg";
-        continue;
-      case "2":
-        var GC: any = 40;
-        continue;
-      case "3":
-        for (var Gv = 0; Gv < numbr; Gv++) {
-          GW.push(Gz.charAt(Math.floor(Math.random() * GC)));
-        }
-        continue;
-      case "4":
-        var GW: any = [];
-        continue;
+function getRandomIntInRange(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function generateRandomString(length: number): string {
+  const characters = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const characterCount = characters.length;
+  const result: string[] = [];
+  
+  for (let i = 0; i < length; i++) {
+    result.push(characters.charAt(Math.floor(Math.random() * characterCount)));
+  }
+  
+  return result.join('');
+}
+
+function generateComplexString(length: number): string {
+  const characters = "gmbonjklezcfxta1234567890GMBONJKLEZCFXTA";
+  const characterCount = characters.length;
+  const result: string[] = [];
+  
+  for (let i = 0; i < length; i++) {
+    result.push(characters.charAt(Math.floor(Math.random() * characterCount)));
+  }
+  
+  return result.join('');
+}
+
+const numberToCharMap: Record<number, string> = {
+  0: 'g',
+  1: 'n',
+  2: 'b',
+  3: 'r',
+  4: 'z',
+  5: 's',
+  6: 'l',
+  7: 'x',
+  8: 'i',
+  9: 'a',
+};
+
+const userId = 5;
+
+export function getPalive(tDelay: number): string {
+  const stringLengths = [6, 5, 9, 4, 5, 3, 6, 6, 3];
+  const currentTime = getCurrentTimeInSeconds() + tDelay - 540;
+  const currentTimeStr = currentTime.toString();
+  const currentTimeDigits = currentTimeStr.split('');
+  let result = '';
+  let index = 0;
+  
+  while (index < stringLengths.length) {
+    if (getRandomIntInRange(0, 1) === 1) {
+      result += generateComplexString(stringLengths[index]);
+    } else {
+      result += generateRandomString(stringLengths[index]);
     }
-    break;
+    
+    if (Math.floor(Math.random() * 2) === 0) {
+      result += numberToCharMap[parseInt(currentTimeDigits[index])]?.toUpperCase() || '';
+    } else {
+      result += numberToCharMap[parseInt(currentTimeDigits[index])] || '';
+    }
+    
+    index++;
   }
+  
+  if (getRandomIntInRange(0, 1) === 1) {
+    result += userId + generateComplexString(getRandomIntInRange(4, 20));
+  } else {
+    result += userId + generateRandomString(getRandomIntInRange(4, 25));
+  }
+  
+  result += '0=';
+  
+  return result;
 }
 
-export function getPalive(tDelay: number = 7, userIdDigit: number = 3) {
-  let cipher = [6, 5, 9, 4, 5, 3, 6, 6, 3];
-  var currentTime = Math.round(new Date().getTime() / 1e3) + tDelay - 540;
-  let currentTimeString = currentTime.toString();
-  let currentTimeChars = currentTimeString.split("");
-  let output = "";
-  let i = 0;
 
-  while (i < cipher.length) {
-    output += randomStr1(cipher[i]);
-    let suffix = cipherObj[parseInt(currentTimeChars[i])];
-    output += suffix;
-    i++;
-  }
-  output += userIdDigit + randomStr1(8);
-  output = output + "0=";
-
-  return output;
-}
 let randomStringCharacters = ["abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", "gmbonjklezcfxtaGMBONJKLEZCFXTA"];
 
+
+//not used in palive but used by other parts of the pxpjs code
 export function customRandomString(outputLength: number, listId: number = 0) {
   var output: string[] = [];
   let alphabet = randomStringCharacters[listId];

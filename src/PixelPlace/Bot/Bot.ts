@@ -36,7 +36,7 @@ class Bot {
   public placePixel(x: number, y: number, color: number, force: boolean = false): number {
     let time = Date.now();
     let diff = time - this.lastPixelPlace;
-    if (diff < 25) return diff;
+    if (diff < 18) return diff;
 
     if (color == 63)
       return -2;
@@ -52,5 +52,6 @@ class Bot {
     return -1;
   }
 }
+
 
 export default Bot;

@@ -1,6 +1,6 @@
 import Auth from "../Bot/Auth/Auth";
 import Connection from "../Bot/Connection/Connection";
-import unpackPixel from "./Utils/unPackPixel";
+import unpackPixel from "./Utils/unpackPixel";
 import packPixel from "./Utils/packPixel";
 import writeImageData from "../Helpers/Render/writeImageData";
 import { onNetworkMessage } from "./Callbacks/onNetworkMessage";

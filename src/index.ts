@@ -11,6 +11,7 @@ import Bot from "./PixelPlace/Bot/Bot";
 import { EDrawingMode } from "./PixelPlace/Render/Enums/EDrawingMode";
 import { convertAndGetImage } from "./PixelPlace/Render/Logic/Image/convertAndGetImage";
 
+
 export { World };
 export { PixelPlace };
 export { EPackets };

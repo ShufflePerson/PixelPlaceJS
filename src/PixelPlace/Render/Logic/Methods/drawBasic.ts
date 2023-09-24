@@ -2,7 +2,7 @@ import winston from "winston";
 import EPixelJobPriority from "../../../PixelJob/Enums/EPixelJobPriority";
 import PixelPlace from "../../../PixelPlace";
 import packPixel from "../../../World/Utils/packPixel";
-import unpackPixel from "../../../World/Utils/unPackPixel";
+import unpackPixel from "../../../World/Utils/unpackPixel";
 import IVector2D from "../../Types/IVector2D";
 
 export default async (position: IVector2D, width: number, height: number, buffer: Buffer, forceOverride: boolean, pixelplace: PixelPlace): Promise<void> => {

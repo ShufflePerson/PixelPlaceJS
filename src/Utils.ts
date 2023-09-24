@@ -1,8 +1,8 @@
 import getPxPColor from "./PixelPlace/Helpers/Render/getPxPColor";
-import { getPalive } from "./PixelPlace/Helpers/getPAlive";
+import { getPalive } from "./PixelPlace/Helpers/getPalive";
 import fetchCanvasPNG from "./PixelPlace/World/Utils/fetchCanvasPNG";
 import packPixel from "./PixelPlace/World/Utils/packPixel";
-import unpackPixel from "./PixelPlace/World/Utils/unPackPixel";
+import unpackPixel from "./PixelPlace/World/Utils/unpackPixel";
 
 namespace Utils {
   export let generatePingAlive = getPalive;

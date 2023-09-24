@@ -7,7 +7,7 @@ import { getCacheLocalAuth } from "../../Helpers/getAuthSecret";
 import parseSessionData from "./Utils/parseSessionData";
 import EError from "../../Types/Auth/EError";
 import fs from "fs";
-import { customRandomString } from "../../Helpers/getPAlive";
+import { customRandomString } from "../../Helpers/getPalive";
 import winston from "winston";
 import ILoginData from "./Types/ILoginData";
 
@@ -79,8 +79,12 @@ class Auth {
   }
 
   public async setUsername(username: string = customRandomString(7)): Promise<void> {
-    await this.axios.post("https://pixelplace.io/api/account-username.php", `username=${username}`, this.getAxiosConfig());
-    winston.log("info", "Set username", "Auth", username);
+      return new Promise((resolve, reject) => {
+	  console.log("`setUsername` has been removed.");
+	  resolve();
+      });
+      await this.axios.post("https://pixelplace.io/api/account-username.php", `username=${username}`, this.getAxiosConfig());
+      winston.log("info", "Set username", "Auth", username);
   }
 
   public async getPaintingData(): Promise<AxiosResponse> {

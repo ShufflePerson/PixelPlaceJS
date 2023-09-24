@@ -34,10 +34,10 @@ function saveNewTokens(auths: Auth[]) {
 }
 
 let protectId: number = 0;
-let [x, y] = [1286, 1823];
+let [x, y] = [1642, 713];
 let accounts = loadAuths();
-let world = new World(7, accounts[0]);
-let pixelplace = new PixelPlace(accounts, world, 7);
+let world = new World(77027, accounts[0]);
+let pixelplace = new PixelPlace(accounts, world, 77027);
 
 
 async function draw() {
@@ -50,8 +50,7 @@ async function main() {
     await world.Init();
     await pixelplace.Init();
     saveNewTokens(accounts);
-    protectId = await pixelplace.render.drawImage({x, y}, "test.png", 0, true);
-    draw();
+    protectId = await pixelplace.render.drawImage({x, y}, "test.png", 300, false);
 }
 
 main();
