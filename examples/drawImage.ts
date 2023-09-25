@@ -1,6 +1,7 @@
 import { PixelPlace, World, Auth, EDrawingMode } from '../src/index'
 import fs from 'fs';
 
+
 function loadCache() {
     if (!fs.existsSync("./cache.json"))
     throw new Error("No cache.json found. Please create one");
