@@ -40,14 +40,14 @@ const numberToCharMap: Record<number, string> = {
   6: 'l',
   7: 'x',
   8: 'i',
-  9: 'a',
+  9: 'o',
 };
 
 const userId = 5;
 
 export function getPalive(tDelay: number): string {
   const stringLengths = [6, 5, 9, 4, 5, 3, 6, 6, 3];
-  const currentTime = getCurrentTimeInSeconds() + tDelay - 540;
+  const currentTime = getCurrentTimeInSeconds() + tDelay - 5400;
   const currentTimeStr = currentTime.toString();
   const currentTimeDigits = currentTimeStr.split('');
   let result = '';

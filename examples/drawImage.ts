@@ -1,4 +1,4 @@
-import { PixelPlace, World, Auth, EDrawingMode } from '../src/index'
+import { PixelPlace, World, Auth } from '../src/index'
 import fs from 'fs';
 
 
