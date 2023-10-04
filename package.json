@@ -8,7 +8,9 @@
     "dev": "nodemon src/index.ts",
     "run-dev": "npm run format && tsc && node examples/drawImage.js",
     "format": "prettier --config .prettierrc ./src/**/*.ts --write",
-    "pub": "tsc && npm version patch --force && npm publish && cd src && del /S *.js && cd .."
+    "pub": "tsc && npm version patch --force && npm publish && cd src && del /S *.js && cd ..",
+    "clean_js_files": "cd src && find . -name \"*.js\" -type f -delete;",
+    "clean_type_files": "cd src && find . -name \"*.d.ts\" -type f -delete;"
   },
   "dependencies": {
     "@types/random-useragent": "^0.3.1",
