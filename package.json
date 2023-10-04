@@ -6,6 +6,7 @@
   "scripts": {
     "compile": "tsc",
     "dev": "nodemon src/index.ts",
+    "clean_all_linux": "npm run clean_js_files && npm run clean_type_files",
     "run-dev": "npm run format && tsc && node examples/drawImage.js",
     "format": "prettier --config .prettierrc ./src/**/*.ts --write",
     "pub": "tsc && npm version patch --force && npm publish && cd src && del /S *.js && cd ..",
